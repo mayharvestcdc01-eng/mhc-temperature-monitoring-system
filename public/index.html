@@ -7,18 +7,30 @@
 <style>
 :root{--navy:#12304a;--blue:#176b87;--teal:#168b82;--bg:#f3f6f9;--line:#dce4eb;--ink:#203040;--muted:#647789;--red:#c0392b;--amber:#b9770e;--green:#16804a}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);font:14px/1.45 "Segoe UI",Arial,sans-serif;color:var(--ink)}
-header{background:linear-gradient(120deg,var(--navy),var(--blue));color:white;padding:22px 26px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-header h1{margin:0;font-size:22px}header p{margin:5px 0 0;color:#d9eaf2}
-.header-right{display:flex;align-items:center;gap:10px}
-.cloud-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.18);padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;color:#fff}
+header{background:linear-gradient(120deg,var(--navy),var(--blue));color:white;padding:18px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;box-shadow:0 4px 14px rgba(18,48,74,0.2)}
+header h1{margin:0;font-size:22px;letter-spacing:-0.2px}header p{margin:4px 0 0;color:#d9eaf2;font-size:13px}
+.header-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+
+/* Header Live Date & Time Widget (Upper Right) */
+.header-clock-box{background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.28);border-radius:10px;padding:6px 16px;text-align:right;display:flex;flex-direction:column;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.18)}
+.header-clock-box .h-date{font-size:11px;color:#d3ebf7;font-weight:600;letter-spacing:0.5px;text-transform:uppercase}
+.header-clock-box .h-time{font-size:20px;font-weight:800;color:#ffffff;font-variant-numeric:tabular-nums;letter-spacing:1px;line-height:1.2;text-shadow:0 1px 4px rgba(0,0,0,0.4)}
+
+.cloud-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.18);padding:7px 14px;border-radius:20px;font-size:12px;font-weight:600;color:#fff;border:1px solid rgba(255,255,255,0.2)}
 .cloud-dot{width:8px;height:8px;border-radius:50%;background:#4ade80}
 .cloud-dot.syncing{background:#fbbf24;animation:pulse 1s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .wrap{max-width:1450px;margin:20px auto;padding:0 18px}.toolbar,.panel{background:white;border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:16px;box-shadow:0 3px 12px #1a38500b}
-.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.toolbar strong{margin-right:auto;font-size:16px}
-button{border:0;border-radius:8px;padding:10px 14px;font-weight:650;cursor:pointer;background:var(--blue);color:white;transition:background .15s}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.toolbar strong{margin-right:auto;font-size:16px;color:var(--navy)}
+
+/* Buttons & Active Tab Highlighting */
+button{border:0;border-radius:8px;padding:10px 15px;font-weight:650;cursor:pointer;background:var(--blue);color:white;transition:all .18s ease;font-size:13px}
 button:hover{filter:brightness(1.08)}
-button.secondary{background:#e8eef3;color:var(--navy)}button.success{background:var(--green)}button.danger{background:var(--red)}button:disabled{opacity:.45;cursor:not-allowed}
+button.secondary{background:#e8eef3;color:var(--navy)}
+button.tab-btn{background:#edf2f7;color:#334d63;border:1px solid #d5e0ea}
+button.tab-btn:hover{background:#dfe9f1;color:var(--navy)}
+button.tab-btn.active-tab{background:var(--navy)!important;color:#ffffff!important;border-color:#0d2336!important;box-shadow:0 3px 9px rgba(18,48,74,0.35);transform:translateY(-1px);font-weight:700}
+button.success{background:var(--green)}button.danger{background:var(--red)}button:disabled{opacity:.45;cursor:not-allowed}
 h2{font-size:17px;margin:0 0 14px;color:var(--navy)}h3{font-size:14px;margin:0 0 10px;color:var(--navy)}
 .grid{display:grid;grid-template-columns:repeat(4,minmax(180px,1fr));gap:13px}.field{display:flex;flex-direction:column;gap:5px}.field.wide{grid-column:span 2}label{font-size:12px;font-weight:700;color:#506273}
 input,select,textarea{width:100%;border:1px solid #cbd6df;border-radius:7px;padding:10px;background:#fff;color:var(--ink);font:inherit;min-height:39px}input:focus,select:focus,textarea:focus{outline:2px solid #8bc4d3;border-color:var(--blue)}
@@ -27,9 +39,31 @@ small,.hint{color:var(--muted);font-size:11px}.actions{display:flex;gap:9px;flex
 .tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:980px}th,td{padding:10px 9px;border-bottom:1px solid var(--line);text-align:left;font-size:12px;vertical-align:middle}th{background:#f5f8fa;color:#506273;position:sticky;top:0;z-index:1}td .status{white-space:nowrap}
 .filters{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
 .hidden{display:none!important}.notice{padding:10px 12px;border-radius:8px;background:#eef6fa;color:#31576b;margin:10px 0;font-size:12px}.alert{background:#fff0ed;color:#96382c}.good{background:#eaf7ef;color:#17643b}
-.sheet{min-width:0;width:max-content;border:1px solid #555;border-collapse:collapse}.sheet th,.sheet td{border:1px solid #777;padding:5px 6px;text-align:center;font-size:11px;position:static;vertical-align:middle}.sheet th{background:#f5f8fa;color:#203040}.sheet .sheettitle{font-size:14px;letter-spacing:1.5px;padding:7px}
+
+/* ===== Sheet Styling & Interactive Highlighting ===== */
+.sheet{min-width:0;width:max-content;border:1px solid #555;border-collapse:collapse;user-select:none}
+.sheet th,.sheet td{border:1px solid #777;padding:5px 6px;text-align:center;font-size:11px;position:static;vertical-align:middle;transition:background-color .15s}
+.sheet th{background:#f5f8fa;color:#203040}.sheet .sheettitle{font-size:14px;letter-spacing:1.5px;padding:7px}
 .sheet .c1,.sheet .c2{position:sticky;background:#fff;z-index:2}.sheet th.c1,.sheet th.c2{background:#f5f8fa;z-index:3}.sheet .c1{left:0;min-width:200px;max-width:200px;text-align:left}.sheet .c2{left:200px;min-width:125px;max-width:125px;white-space:nowrap}.sheet td.room{font-weight:600}
-.sheet td.cell{min-width:62px;height:34px}.sheet .rd{cursor:pointer;border-radius:4px;padding:1px 3px;margin:1px 0}.sheet .rd:hover{background:#e6f1f6}.sheet .rd .t{font-weight:700;font-size:12px}.sheet .rd .tm{font-size:11px;font-weight:600;color:#203040}.sheet .rd.dev{background:#fde9e7;color:#a42b21}.sheet .rd.dev .tm{color:#a42b21}
+.sheet td.cell{min-width:62px;height:34px}
+
+/* Interactive Sheet Row Hover & Click Highlights */
+.sheet tbody tr{cursor:pointer}
+.sheet tbody tr:hover td{background-color:#edf6fc}
+.sheet tbody tr:hover td.c1,.sheet tbody tr:hover td.c2{background-color:#e0eef7}
+
+/* Active Highlighted Sheet Row */
+.sheet tbody tr.active-row td{background-color:#cce7f7!important;color:#07253b!important;border-top:2px solid #176b87!important;border-bottom:2px solid #176b87!important}
+.sheet tbody tr.active-row td.c1{background-color:#b9dff5!important;color:#07253b!important;font-weight:750!important;border-left:5px solid #176b87!important}
+.sheet tbody tr.active-row td.c2{background-color:#b9dff5!important;color:#07253b!important;font-weight:750!important}
+
+.sheet .rd{cursor:pointer;border-radius:4px;padding:2px 4px;margin:1px 0;transition:all .15s}
+.sheet .rd:hover{background:#d8ebf5;transform:scale(1.04)}
+.sheet .rd .t{font-weight:700;font-size:12px}.sheet .rd .tm{font-size:11px;font-weight:600;color:#203040}.sheet .rd.dev{background:#fde9e7;color:#a42b21}.sheet .rd.dev .tm{color:#a42b21}
+
+/* Active Selected Reading Cell */
+.sheet .rd.active-rd{outline:2.5px solid #005bb5!important;background:#ffffff!important;box-shadow:0 0 8px rgba(0,91,181,0.5)!important;transform:scale(1.08)!important}
+
 .sigpad{display:block;width:100%;max-width:520px;height:150px;border:1.5px dashed #8aa0ad;border-radius:8px;background:#fff;touch-action:none;margin:8px 0}.sigrow{display:flex;gap:28px;flex-wrap:wrap;margin-top:16px}.sigrow>div{width:220px}.sigrow img{display:block;width:220px;height:80px;object-fit:contain;border-bottom:1px solid #333}.sigrow .blank{height:80px;border-bottom:1px solid #333}.sigrow p{margin:4px 0;font-size:12px}.sigrow .rm{font-size:11px;padding:2px 8px;margin-top:2px}
 .sheetbar{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;margin-bottom:10px}.sheetbar .field{min-width:180px}.legend{font-size:11px;color:var(--muted)}.legend b{display:inline-block;width:12px;height:12px;background:#fde9e7;border:1px solid #a42b21;border-radius:3px;vertical-align:-2px;margin-right:4px}
 @page{size:landscape;margin:8mm}
@@ -53,6 +87,7 @@ footer{text-align:center;color:#7b8b98;font-size:11px;padding:12px}
 .rl-head,.rl-row{display:grid;grid-template-columns:36px minmax(190px,1.7fr) minmax(150px,1.1fr) minmax(175px,1.1fr) minmax(125px,.8fr) minmax(120px,.8fr);gap:10px;align-items:center;padding:9px 12px}
 .rl-head{background:#f5f8fa;font-size:11px;font-weight:700;color:#506273}
 .rl-row{border-top:1px solid var(--line);transition:background .2s}
+.rl-row:focus-within{background:#eaf5fc!important;border-left:4px solid var(--blue)}
 .rl-row.filled{background:#f4fafc}.rl-row.dev{background:#fff4f1}.rl-row.locked{background:#f1f4f7}
 .rl-no{color:var(--muted);font-weight:700;text-align:center}
 .rl-room{font-weight:700;color:var(--navy)}
@@ -84,6 +119,10 @@ footer{text-align:center;color:#7b8b98;font-size:11px;padding:12px}
     <p>Cold Storage • Holding Rooms • Blast Freezing • Production Support Areas | Central Cloud Storage</p>
   </div>
   <div class="header-right">
+    <div class="header-clock-box">
+      <div class="h-date" id="topHeaderDate">--</div>
+      <div class="h-time" id="topHeaderTime">--:--:-- --</div>
+    </div>
     <div class="cloud-pill" id="syncPill">
       <div class="cloud-dot" id="syncDot"></div>
       <span id="syncText">Connected to Cloud Database</span>
@@ -93,12 +132,12 @@ footer{text-align:center;color:#7b8b98;font-size:11px;padding:12px}
 <div class="wrap">
  <div class="toolbar">
    <strong>Monitoring Dashboard</strong>
-   <button class="secondary" onclick="showTab('entry')">New Monitoring Entry</button>
-   <button class="secondary" onclick="showTab('records')">Monitoring Records</button>
-   <button class="secondary" onclick="showTab('counter')">Counter Check</button>
-   <button class="secondary" onclick="showTab('verify')">Verification</button>
-   <button class="secondary" onclick="exportCSV()">Export CSV</button>
-   <button class="danger" onclick="resetAllRecords()">Reset All Records</button>
+   <button type="button" class="tab-btn active-tab" data-tab="entry" onclick="showTab('entry')">New Monitoring Entry</button>
+   <button type="button" class="tab-btn" data-tab="records" onclick="showTab('records')">Monitoring Records</button>
+   <button type="button" class="tab-btn" data-tab="counter" onclick="showTab('counter')">Counter Check</button>
+   <button type="button" class="tab-btn" data-tab="verify" onclick="showTab('verify')">Verification</button>
+   <button type="button" class="secondary" onclick="exportCSV()">Export CSV</button>
+   <button type="button" class="danger" onclick="resetAllRecords()">Reset All Records</button>
  </div>
  <section id="dashboard">
   <div class="cards">
@@ -232,6 +271,19 @@ let sheetSigs = {};
 let counterSigs = {};
 let weeklyVer = {};
 let selectedWeek = null;
+let selectedSheetArea = null;
+let selectedCounterArea = null;
+let activeReadingId = null;
+
+function selectSheetRow(area){
+  selectedSheetArea = selectedSheetArea === area ? null : area;
+  renderSheet();
+}
+
+function selectCounterRow(area){
+  selectedCounterArea = selectedCounterArea === area ? null : area;
+  renderCounterSheet();
+}
 
 // Populate personnel & areas
 personnel.forEach(p=>{
@@ -426,7 +478,14 @@ $("entryForm").addEventListener("submit", async e=>{
  }
 });
 
-function showTab(t){["entry","records","verify","counter"].forEach(x=>$(x).classList.toggle("hidden",x!==t));if(t==="entry")refreshLocks();if(t==="records"||t==="verify"||t==="counter")render()}
+function showTab(t){
+  ["entry","records","verify","counter"].forEach(x=>$(x).classList.toggle("hidden",x!==t));
+  document.querySelectorAll(".tab-btn").forEach(btn=>{
+    btn.classList.toggle("active-tab", btn.dataset.tab === t);
+  });
+  if(t==="entry")refreshLocks();
+  if(t==="records"||t==="verify"||t==="counter")render();
+}
 function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function badge(s){return `<span class="status ${s==="Compliant"||s==="Verified"||s==="Matched"?"ok":s==="Deviation"||s==="Rejected"||s==="Discrepancy"?"bad":"pending"}">${esc(s)}</span>`}
 
@@ -434,14 +493,20 @@ function render(){
  $("totalCount").textContent=data.length;$("compliantCount").textContent=data.filter(r=>r.assessment==="Compliant").length;$("deviationCount").textContent=data.filter(r=>r.assessment==="Deviation").length;$("pendingCount").textContent=data.filter(r=>r.verification==="Pending Verification").length;
  let fd=$("filterDate").value,fa=$("filterArea").value,fs=$("filterStatus").value,q=($("searchText").value||"").toLowerCase();
  let rows=data.filter(r=>(!fd||r.date===fd)&&(!fa||r.area===fa)&&(!fs||r.verification===fs||r.assessment===fs)&&(`${r.monitor} ${r.thermo} ${r.area}`.toLowerCase().includes(q)));
- $("recordsBody").innerHTML=rows.map(r=>`<tr><td>${esc(r.date)}<br>${esc(r.time)}</td><td>${esc(r.area)}</td><td><b>${Number(r.temp).toFixed(1)}°C</b></td><td>${esc(r.standard)}</td><td><div class="monitor-counter-wrap"><div class="monitor-info"><b>${esc(r.monitor)}</b><br><small>${esc(r.shift)}</small></div>${(()=>{let cc=cdata.filter(x=>String(x.linkedId)===String(r.id)).sort((a,b)=>b.id-a.id)[0];return cc?`<div class="counter-sign-display"><small>OIC/PLI Counter Checked</small><b>${esc(cc.checker)}</b>${ocSig(cc)?`<img src="${ocSig(cc)}" alt="OIC/PLI counter check signature">`:""}</div>`:`<div class="counter-sign-display"><small>OIC/PLI Counter Check</small><span>Pending</span></div>`})()}</div></td><td>${esc(r.thermo)}<br>${esc(r.calibration)}</td><td>${badge(r.assessment)}</td><td>${badge(r.verification)}${r.verifier?`<br><small>${esc(r.verifier)}</small>`:""}</td><td><button class="secondary" onclick="viewRecord(${r.id})">View</button></td></tr>`).join("")||`<tr><td colspan="9">No monitoring records found.</td></tr>`;
+ $("recordsBody").innerHTML=rows.map(r=>`<tr><td>${esc(r.date)}<br>${esc(r.time)}</td><td>${esc(r.area)}</td><td><b>${Number(r.temp).toFixed(1)}°C</b></td><td>${esc(r.standard)}</td><td><div class="monitor-counter-wrap"><div class="monitor-info"><b>${esc(r.monitor)}</b><br><small>${esc(r.shift)}</small></div>${(()=>{let cc=cdata.filter(x=>String(x.linkedId)===String(r.id)).sort((a,b)=>b.id-a.id)[0];return cc?`<div class="counter-sign-display"><small>OIC/PLI Counter Checked</small><b>${esc(cc.checker)}</b>${ocSig(cc)?`<img src="${ocSig(cc)}" alt="OIC/PLI counter check signature">`:""}</div>`:`<div class="counter-sign-display"><small>OIC/PLI Counter Check</small><span>Pending</span></div>`})()}</div></td><td>${esc(r.thermo)}<br>${esc(r.calibration)}</td><td>${badge(r.assessment)}</td><td>${badge(r.verification)}${r.verifier?`<br><small>${esc(r.verifier)}</small>`:""}</td><td><button class="secondary" onclick="viewRecord(${r.id},'${esc(r.area)}')">View</button></td></tr>`).join("")||`<tr><td colspan="9">No monitoring records found.</td></tr>`;
  renderWeeks();
  renderCounter();
  renderSheet();
 }
 ["filterDate","filterArea","filterStatus","searchText"].forEach(id=>$(id).addEventListener("input",render));
 
-function viewRecord(id){let r=data.find(x=>x.id===id),cc=cdata.filter(x=>String(x.linkedId)===String(r.id)).sort((a,b)=>b.id-a.id)[0];alert(`Record #${id}\n${r.date} ${r.time}\nArea: ${r.area}\nTemperature: ${Number(r.temp).toFixed(1)}°C (${r.assessment})\nMonitor / PLI: ${r.monitor} / ${r.shift}\nOIC/PLI Counter Checked By: ${cc?cc.checker:"Pending"}\nCounter Check Signature: ${cc&&ocSig(cc)?"Signed":"Not yet signed"}\nThermometer: ${r.thermo}\nCalibration date: ${r.calibration}\nRemarks: ${r.remarks||"—"}\nVerification: ${r.verification}\nVerified by: ${r.verifier||"—"}\nVerified at: ${r.verifyDate||"—"}\nVerification remarks: ${r.decisionRemarks||"—"}`)}
+function viewRecord(id, area){
+  if(area) selectedSheetArea = area;
+  activeReadingId = id;
+  renderSheet();
+  let r=data.find(x=>x.id===id),cc=cdata.filter(x=>String(x.linkedId)===String(r.id)).sort((a,b)=>b.id-a.id)[0];
+  alert(`Record #${id}\n${r.date} ${r.time}\nArea: ${r.area}\nTemperature: ${Number(r.temp).toFixed(1)}°C (${r.assessment})\nMonitor / PLI: ${r.monitor} / ${r.shift}\nOIC/PLI Counter Checked By: ${cc?cc.checker:"Pending"}\nCounter Check Signature: ${cc&&ocSig(cc)?"Signed":"Not yet signed"}\nThermometer: ${r.thermo}\nCalibration date: ${r.calibration}\nRemarks: ${r.remarks||"—"}\nVerification: ${r.verification}\nVerified by: ${r.verifier||"—"}\nVerified at: ${r.verifyDate||"—"}\nVerification remarks: ${r.decisionRemarks||"—"}`);
+}
 
 function exportCSV(){let cols=["date","time","area","temp","standard","assessment","monitor","shift","thermo","calibration","remarks","verification","verifier","verifyDate","decisionRemarks"];let csv=[cols.join(","),...data.map(r=>cols.map(k=>`"${String(r[k]??"").replace(/"/g,'""')}"`).join(","))].join("\n");let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="Hourly_Room_Temperature_Monitoring.csv";a.click();URL.revokeObjectURL(a.href)}
 
@@ -572,7 +637,10 @@ function focusSheet(r){if(!r)return;$("sheetShift").value=r.shift;$("sheetDate")
 function renderSheet(){let d=$("sheetDate").value,sh=$("sheetShift").value;if(!d){$("sheetTable").innerHTML="";return}
 let recs=data.filter(r=>r.shift===sh&&sd(r)===d),cols=[...new Set([...shiftSlots(sh,d),...recs.map(r=>r.date+"|"+r.time.slice(0,2))])].sort();
 let head=`<thead><tr><th colspan="${cols.length+2}" class="sheettitle"><div style="position:sticky;left:8px;width:max-content">MONITORING — ${esc(sh.toUpperCase())} (${esc(shiftLabel(sh))}) — ${esc(fmtD(d))}</div></th></tr><tr><th rowspan="2" class="c1">ROOM</th><th rowspan="2" class="c2">STD</th><th colspan="${cols.length}">TIME</th></tr><tr>${cols.map(k=>{if(!k)return"<th>&nbsp;</th>";let[dt,h]=k.split("|");return `<th>${h}:00<br><small>${esc(fmtS(dt))}</small></th>`}).join("")}</tr></thead>`;
-let body=areas.map((a,i)=>`<tr><td class="room c1">${i+1}. ${esc(a[0])}</td><td class="c2">${esc(a[3])}</td>${cols.map(k=>{if(!k)return'<td class="cell"></td>';let[dt,h]=k.split("|"),rs=recs.filter(r=>r.area===a[0]&&r.date===dt&&r.time.slice(0,2)===h).sort((x,y)=>x.id-y.id);return `<td class="cell">${rs.map(r=>`<div class="rd${r.assessment==="Deviation"?" dev":""}" onclick="viewRecord(${r.id})" title="${esc(r.monitor)} • ${esc(r.time)}"><span class="t">${Number(r.temp).toFixed(1)}</span><br><span class="tm">${esc(r.time.slice(0,5))}</span></div>`).join("")}</td>`}).join("")}</tr>`).join("");
+let body=areas.map((a,i)=>{
+  let isRowActive = selectedSheetArea === a[0];
+  return `<tr class="${isRowActive?'active-row':''}" onclick="selectSheetRow('${esc(a[0])}')"><td class="room c1">${i+1}. ${esc(a[0])}</td><td class="c2">${esc(a[3])}</td>${cols.map(k=>{if(!k)return'<td class="cell"></td>';let[dt,h]=k.split("|"),rs=recs.filter(r=>r.area===a[0]&&r.date===dt&&r.time.slice(0,2)===h).sort((x,y)=>x.id-y.id);return `<td class="cell">${rs.map(r=>`<div class="rd${r.assessment==="Deviation"?" dev":""}${activeReadingId===r.id?" active-rd":""}" onclick="event.stopPropagation();viewRecord(${r.id},'${esc(a[0])}')" title="${esc(r.monitor)} • ${esc(r.time)}"><span class="t">${Number(r.temp).toFixed(1)}</span><br><span class="tm">${esc(r.time.slice(0,5))}</span></div>`).join("")}</td>`}).join("")}</tr>`;
+}).join("");
 $("sheetTable").innerHTML=head+`<tbody>${body}</tbody>`;
 
 let key=d+"|"+sh,sigs=sheetSigs[key]||[];
@@ -641,11 +709,20 @@ let recs=cdata.filter(r=>r.date===d),hrs=[...new Set(recs.map(r=>Number(r.time.s
 let cols=hrs.slice();while(cols.length<5)cols.push(null);
 let label=new Date(d+"T00:00:00").toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"});
 let head=`<thead><tr><th colspan="${cols.length+2}" class="sheettitle"><div style="position:sticky;left:8px;width:max-content">COUNTERCHECKING — ${esc(label)}</div></th></tr><tr><th rowspan="2" class="c1">ROOM</th><th rowspan="2" class="c2">STD</th><th colspan="${cols.length}">TIME</th></tr><tr>${cols.map(h=>`<th>${h===null?"&nbsp;":pad(h)+":00"}</th>`).join("")}</tr></thead>`;
-let body=areas.map((a,i)=>`<tr><td class="room c1" style="cursor:pointer" onclick="counterPick(areas[${i}][0])" title="Counter check this area">${i+1}. ${esc(a[0])}</td><td class="c2">${esc(a[3])}</td>${cols.map(h=>{if(h===null)return '<td class="cell"></td>';let rs=recs.filter(r=>r.area===a[0]&&Number(r.time.slice(0,2))===h).sort((x,y)=>x.id-y.id);return `<td class="cell">${rs.map(r=>`<div class="rd${r.assessment==="Deviation"||r.result==="Discrepancy"?" dev":""}" onclick="viewCounter(${r.id})" title="${esc(r.checker)} • ${esc(r.time)}"><span class="t">${Number(r.temp).toFixed(1)}</span><br><span class="tm">${esc(r.time.slice(0,5))}</span></div>`).join("")}</td>`}).join("")}</tr>`).join("");
+let body=areas.map((a,i)=>{
+  let isRowActive = selectedCounterArea === a[0];
+  return `<tr class="${isRowActive?'active-row':''}" onclick="selectCounterRow('${esc(a[0])}')"><td class="room c1" style="cursor:pointer" onclick="event.stopPropagation();counterPick(areas[${i}][0])" title="Counter check this area">${i+1}. ${esc(a[0])}</td><td class="c2">${esc(a[3])}</td>${cols.map(h=>{if(h===null)return '<td class="cell"></td>';let rs=recs.filter(r=>r.area===a[0]&&Number(r.time.slice(0,2))===h).sort((x,y)=>x.id-y.id);return `<td class="cell">${rs.map(r=>`<div class="rd${r.assessment==="Deviation"||r.result==="Discrepancy"?" dev":""}${activeReadingId===r.id?" active-rd":""}" onclick="event.stopPropagation();viewCounter(${r.id},'${esc(a[0])}')" title="${esc(r.checker)} • ${esc(r.time)}"><span class="t">${Number(r.temp).toFixed(1)}</span><br><span class="tm">${esc(r.time.slice(0,5))}</span></div>`).join("")}</td>`}).join("")}</tr>`;
+}).join("");
 $("counterSheet").innerHTML=head+`<tbody>${body}</tbody>`}
 $("cSheetDate").value=currentStamp().date;$("cSheetDate").addEventListener("input",()=>{renderCounterSheet();renderCounterSigs()});
 
-function viewCounter(id){let r=cdata.find(x=>x.id===id);alert(`Counter Check #${id}\n${r.date} ${r.time}\nArea: ${r.area}\nCounter check: ${Number(r.temp).toFixed(1)}°C (${r.assessment})\nMonitoring reading: ${r.linkedTemp!==""?Number(r.linkedTemp).toFixed(1)+"°C by "+r.linkedMonitor+" ("+r.linkedStamp+")":"—"}\nDifference: ${r.diff!==null&&r.diff!==undefined?Number(r.diff).toFixed(1)+"°C":"—"} (${r.result})\nCounter checker: ${r.checker} / ${r.shift}\nThermometer: ${r.thermo}\nCalibration date: ${r.calibration}\nRemarks: ${r.remarks||"—"}`)}
+function viewCounter(id, area){
+  if(area) selectedCounterArea = area;
+  activeReadingId = id;
+  renderCounterSheet();
+  let r=cdata.find(x=>x.id===id);
+  alert(`Counter Check #${id}\n${r.date} ${r.time}\nArea: ${r.area}\nCounter check: ${Number(r.temp).toFixed(1)}°C (${r.assessment})\nMonitoring reading: ${r.linkedTemp!==""?Number(r.linkedTemp).toFixed(1)+"°C by "+r.linkedMonitor+" ("+r.linkedStamp+")":"—"}\nDifference: ${r.diff!==null&&r.diff!==undefined?Number(r.diff).toFixed(1)+"°C":"—"} (${r.result})\nCounter checker: ${r.checker} / ${r.shift}\nThermometer: ${r.thermo}\nCalibration date: ${r.calibration}\nRemarks: ${r.remarks||"—"}`);
+}
 
 const ymd=x=>`${x.getFullYear()}-${pad(x.getMonth()+1)}-${pad(x.getDate())}`;
 const wkStart=d=>{let x=new Date(d+"T00:00:00");x.setDate(x.getDate()-((x.getDay()+6)%7));return ymd(x)};
@@ -726,11 +803,26 @@ refreshLocks();
 (function(){
   const tick=()=>{
     const d=new Date();
-    $("liveClock").textContent=d.toLocaleDateString(undefined,{year:"numeric",month:"short",day:"numeric"})+"  "+pad(d.getHours())+":"+pad(d.getMinutes())+":"+pad(d.getSeconds());
+    // Live date and time for Header Upper Right
+    const dateOpts = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
+    const dateStr = d.toLocaleDateString('en-US', dateOpts);
+    let hours = d.getHours();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    const timeStr = pad(hours) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds()) + ' ' + ampm;
+
+    if($("topHeaderDate")) $("topHeaderDate").textContent = dateStr;
+    if($("topHeaderTime")) $("topHeaderTime").textContent = timeStr;
+
+    // Data entry live clock
+    if($("liveClock")) {
+      $("liveClock").textContent = d.toLocaleDateString(undefined, {year:"numeric", month:"short", day:"numeric"}) + "  " + pad(d.getHours()) + ":" + pad(d.getMinutes()) + ":" + pad(d.getSeconds());
+    }
   };
   tick();
-  setInterval(tick,1000);
-  setInterval(refreshLocks,15000);
+  setInterval(tick, 1000);
+  setInterval(refreshLocks, 15000);
 })();
 
 // Initial data fetch
