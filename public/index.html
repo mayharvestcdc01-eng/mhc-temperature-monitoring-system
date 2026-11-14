@@ -5,22 +5,65 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hourly Room Temperature Monitoring System - May Harvest Corp</title>
 <style>
-:root{--navy:#12304a;--blue:#176b87;--teal:#168b82;--bg:#f3f6f9;--line:#dce4eb;--ink:#203040;--muted:#647789;--red:#c0392b;--amber:#b9770e;--green:#16804a}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);font:14px/1.45 "Segoe UI",Arial,sans-serif;color:var(--ink)}
-header{background:linear-gradient(120deg,var(--navy),var(--blue));color:white;padding:18px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;box-shadow:0 4px 14px rgba(18,48,74,0.2)}
-header h1{margin:0;font-size:22px;letter-spacing:-0.2px}header p{margin:4px 0 0;color:#d9eaf2;font-size:13px}
+:root{--navy:#0d4a2b;--blue:#15803d;--teal:#0f766e;--bg:#0d4a2b;--line:#dce4eb;--ink:#1e293b;--muted:#647789;--red:#c0392b;--amber:#b9770e;--green:#15803d}
+*{box-sizing:border-box}
+body{
+  min-height:100vh;
+  margin:0;
+  color:var(--ink);
+  background-color:#0d4a2b;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(22, 101, 52, 0.90) 0%, rgba(15, 23, 42, 0.95) 90%),
+    linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25));
+  background-attachment:fixed;
+  background-size:cover;
+  font:14px/1.45 "Segoe UI",Arial,sans-serif;
+}
+header{
+  background:linear-gradient(135deg, rgba(5, 74, 42, 0.98), rgba(15, 23, 42, 0.98));
+  color:white;
+  padding:12px 24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:16px;
+  box-shadow:0 4px 18px rgba(0,0,0,0.35);
+  border-bottom:3px solid #22c55e;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+.brand-area{display:flex;align-items:center;gap:14px}
+.logo-container{
+  width:62px;
+  height:62px;
+  background:#fff;
+  border-radius:12px;
+  padding:4px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 3px 10px rgba(0,0,0,0.3);
+  flex-shrink:0;
+}
+.mhc-logo{max-width:100%;max-height:100%;object-fit:contain}
+.brand-text h1{margin:0;font-size:18px;font-weight:800;letter-spacing:0.8px;color:#ffffff;text-shadow:0 1px 3px rgba(0,0,0,0.5)}
+.brand-text h2{margin:2px 0;font-size:13px;color:#86efac;font-weight:700;letter-spacing:0.3px}
+.brand-text small{color:#cbd5e1;font-size:11px}
+
 .header-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 
 /* Header Live Date & Time Widget (Upper Right) */
-.header-clock-box{background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.28);border-radius:10px;padding:6px 16px;text-align:right;display:flex;flex-direction:column;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.18)}
-.header-clock-box .h-date{font-size:11px;color:#d3ebf7;font-weight:600;letter-spacing:0.5px;text-transform:uppercase}
-.header-clock-box .h-time{font-size:20px;font-weight:800;color:#ffffff;font-variant-numeric:tabular-nums;letter-spacing:1px;line-height:1.2;text-shadow:0 1px 4px rgba(0,0,0,0.4)}
+.header-clock-box{background:rgba(0,0,0,0.38);border:1px solid rgba(134,239,172,0.32);border-radius:10px;padding:6px 16px;text-align:right;display:flex;flex-direction:column;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.25)}
+.header-clock-box .h-date{font-size:11px;color:#86efac;font-weight:600;letter-spacing:0.5px;text-transform:uppercase}
+.header-clock-box .h-time{font-size:20px;font-weight:800;color:#ffffff;font-variant-numeric:tabular-nums;letter-spacing:1px;line-height:1.2;text-shadow:0 1px 4px rgba(0,0,0,0.5)}
 
-.cloud-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.18);padding:7px 14px;border-radius:20px;font-size:12px;font-weight:600;color:#fff;border:1px solid rgba(255,255,255,0.2)}
+.cloud-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);padding:7px 14px;border-radius:20px;font-size:12px;font-weight:600;color:#fff;border:1px solid rgba(255,255,255,0.22)}
 .cloud-dot{width:8px;height:8px;border-radius:50%;background:#4ade80}
 .cloud-dot.syncing{background:#fbbf24;animation:pulse 1s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.wrap{max-width:1450px;margin:20px auto;padding:0 18px}.toolbar,.panel{background:white;border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:16px;box-shadow:0 3px 12px #1a38500b}
+.wrap{max-width:1450px;margin:20px auto;padding:0 18px}.toolbar,.panel{background:white;border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:16px;box-shadow:0 4px 16px rgba(0,0,0,0.16)}
 .toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.toolbar strong{margin-right:auto;font-size:16px;color:var(--navy)}
 
 /* Buttons & Active Tab Highlighting */
@@ -29,13 +72,13 @@ button:hover{filter:brightness(1.08)}
 button.secondary{background:#e8eef3;color:var(--navy)}
 button.tab-btn{background:#edf2f7;color:#334d63;border:1px solid #d5e0ea}
 button.tab-btn:hover{background:#dfe9f1;color:var(--navy)}
-button.tab-btn.active-tab{background:var(--navy)!important;color:#ffffff!important;border-color:#0d2336!important;box-shadow:0 3px 9px rgba(18,48,74,0.35);transform:translateY(-1px);font-weight:700}
+button.tab-btn.active-tab{background:#0f5132!important;color:#ffffff!important;border-color:#198754!important;box-shadow:0 3px 10px rgba(15,81,50,0.45);transform:translateY(-1px);font-weight:700}
 button.success{background:var(--green)}button.danger{background:var(--red)}button:disabled{opacity:.45;cursor:not-allowed}
 h2{font-size:17px;margin:0 0 14px;color:var(--navy)}h3{font-size:14px;margin:0 0 10px;color:var(--navy)}
 .grid{display:grid;grid-template-columns:repeat(4,minmax(180px,1fr));gap:13px}.field{display:flex;flex-direction:column;gap:5px}.field.wide{grid-column:span 2}label{font-size:12px;font-weight:700;color:#506273}
-input,select,textarea{width:100%;border:1px solid #cbd6df;border-radius:7px;padding:10px;background:#fff;color:var(--ink);font:inherit;min-height:39px}input:focus,select:focus,textarea:focus{outline:2px solid #8bc4d3;border-color:var(--blue)}
+input,select,textarea{width:100%;border:1px solid #cbd6df;border-radius:7px;padding:10px;background:#fff;color:var(--ink);font:inherit;min-height:39px}input:focus,select:focus,textarea:focus{outline:2px solid #86efac;border-color:var(--blue)}
 small,.hint{color:var(--muted);font-size:11px}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}.status{display:inline-block;padding:4px 8px;border-radius:20px;font-size:11px;font-weight:750}.ok{background:#e3f5eb;color:#12643b}.bad{background:#fde9e7;color:#a42b21}.pending{background:#fff2d8;color:#885600}.neutral{background:#eaf0f5;color:#526575}
-.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}.metric{background:white;border:1px solid var(--line);border-radius:10px;padding:14px}.metric b{display:block;font-size:23px;color:var(--navy)}.metric span{color:var(--muted);font-size:12px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}.metric{background:white;border:1px solid var(--line);border-radius:10px;padding:14px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}.metric b{display:block;font-size:23px;color:var(--navy)}.metric span{color:var(--muted);font-size:12px}
 .tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:980px}th,td{padding:10px 9px;border-bottom:1px solid var(--line);text-align:left;font-size:12px;vertical-align:middle}th{background:#f5f8fa;color:#506273;position:sticky;top:0;z-index:1}td .status{white-space:nowrap}
 .filters{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
 .hidden{display:none!important}.notice{padding:10px 12px;border-radius:8px;background:#eef6fa;color:#31576b;margin:10px 0;font-size:12px}.alert{background:#fff0ed;color:#96382c}.good{background:#eaf7ef;color:#17643b}
@@ -43,26 +86,26 @@ small,.hint{color:var(--muted);font-size:11px}.actions{display:flex;gap:9px;flex
 /* ===== Sheet Styling & Interactive Highlighting ===== */
 .sheet{min-width:0;width:max-content;border:1px solid #555;border-collapse:collapse;user-select:none}
 .sheet th,.sheet td{border:1px solid #777;padding:5px 6px;text-align:center;font-size:11px;position:static;vertical-align:middle;transition:background-color .15s}
-.sheet th{background:#f5f8fa;color:#203040}.sheet .sheettitle{font-size:14px;letter-spacing:1.5px;padding:7px}
+.sheet th{background:#f5f8fa;color:#203040}.sheet .sheettitle{font-size:14px;letter-spacing:1.5px;padding:7px;background:#f0fdf4;color:#14532d;font-weight:750}
 .sheet .c1,.sheet .c2{position:sticky;background:#fff;z-index:2}.sheet th.c1,.sheet th.c2{background:#f5f8fa;z-index:3}.sheet .c1{left:0;min-width:200px;max-width:200px;text-align:left}.sheet .c2{left:200px;min-width:125px;max-width:125px;white-space:nowrap}.sheet td.room{font-weight:600}
-.sheet td.cell{min-width:62px;height:34px}
+.sheet td.cell{min-width:72px;height:36px}
 
 /* Interactive Sheet Row Hover & Click Highlights */
 .sheet tbody tr{cursor:pointer}
-.sheet tbody tr:hover td{background-color:#edf6fc}
-.sheet tbody tr:hover td.c1,.sheet tbody tr:hover td.c2{background-color:#e0eef7}
+.sheet tbody tr:hover td{background-color:#f0fdf4}
+.sheet tbody tr:hover td.c1,.sheet tbody tr:hover td.c2{background-color:#dcfce7}
 
 /* Active Highlighted Sheet Row */
-.sheet tbody tr.active-row td{background-color:#cce7f7!important;color:#07253b!important;border-top:2px solid #176b87!important;border-bottom:2px solid #176b87!important}
-.sheet tbody tr.active-row td.c1{background-color:#b9dff5!important;color:#07253b!important;font-weight:750!important;border-left:5px solid #176b87!important}
-.sheet tbody tr.active-row td.c2{background-color:#b9dff5!important;color:#07253b!important;font-weight:750!important}
+.sheet tbody tr.active-row td{background-color:#dcfce7!important;color:#14532d!important;border-top:2px solid #16a34a!important;border-bottom:2px solid #16a34a!important}
+.sheet tbody tr.active-row td.c1{background-color:#bbf7d0!important;color:#14532d!important;font-weight:750!important;border-left:5px solid #16a34a!important}
+.sheet tbody tr.active-row td.c2{background-color:#bbf7d0!important;color:#14532d!important;font-weight:750!important}
 
 .sheet .rd{cursor:pointer;border-radius:4px;padding:2px 4px;margin:1px 0;transition:all .15s}
-.sheet .rd:hover{background:#d8ebf5;transform:scale(1.04)}
-.sheet .rd .t{font-weight:700;font-size:12px}.sheet .rd .tm{font-size:11px;font-weight:600;color:#203040}.sheet .rd.dev{background:#fde9e7;color:#a42b21}.sheet .rd.dev .tm{color:#a42b21}
+.sheet .rd:hover{background:#bbf7d0;transform:scale(1.04)}
+.sheet .rd .t{font-weight:750;font-size:11.5px;font-variant-numeric:tabular-nums}.sheet .rd .tm{font-size:10.5px;font-weight:600;color:#203040}.sheet .rd.dev{background:#fde9e7;color:#a42b21}.sheet .rd.dev .tm{color:#a42b21}
 
 /* Active Selected Reading Cell */
-.sheet .rd.active-rd{outline:2.5px solid #005bb5!important;background:#ffffff!important;box-shadow:0 0 8px rgba(0,91,181,0.5)!important;transform:scale(1.08)!important}
+.sheet .rd.active-rd{outline:2.5px solid #16a34a!important;background:#ffffff!important;box-shadow:0 0 8px rgba(22,163,74,0.6)!important;transform:scale(1.08)!important}
 
 .sigpad{display:block;width:100%;max-width:520px;height:150px;border:1.5px dashed #8aa0ad;border-radius:8px;background:#fff;touch-action:none;margin:8px 0}.sigrow{display:flex;gap:28px;flex-wrap:wrap;margin-top:16px}.sigrow>div{width:220px}.sigrow img{display:block;width:220px;height:80px;object-fit:contain;border-bottom:1px solid #333}.sigrow .blank{height:80px;border-bottom:1px solid #333}.sigrow p{margin:4px 0;font-size:12px}.sigrow .rm{font-size:11px;padding:2px 8px;margin-top:2px}
 .sheetbar{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;margin-bottom:10px}.sheetbar .field{min-width:180px}.legend{font-size:11px;color:var(--muted)}.legend b{display:inline-block;width:12px;height:12px;background:#fde9e7;border:1px solid #a42b21;border-radius:3px;vertical-align:-2px;margin-right:4px}
@@ -114,9 +157,15 @@ footer{text-align:center;color:#7b8b98;font-size:11px;padding:12px}
 </head>
 <body>
 <header>
-  <div>
-    <h1>Hourly Room Temperature Monitoring System</h1>
-    <p>Cold Storage • Holding Rooms • Blast Freezing • Production Support Areas | Central Cloud Storage</p>
+  <div class="brand-area">
+    <div class="logo-container">
+      <img src="/images/mhc-logo.png" alt="May Harvest Corporation Logo" class="mhc-logo">
+    </div>
+    <div class="brand-text">
+      <h1>MAY HARVEST CORPORATION</h1>
+      <h2>HOURLY ROOM TEMPERATURE MONITORING SYSTEM</h2>
+      <small>Cold Storage • Holding Rooms • Blast Freezing • Production Areas | Central Cloud Storage</small>
+    </div>
   </div>
   <div class="header-right">
     <div class="header-clock-box">
@@ -639,7 +688,7 @@ let recs=data.filter(r=>r.shift===sh&&sd(r)===d),cols=[...new Set([...shiftSlots
 let head=`<thead><tr><th colspan="${cols.length+2}" class="sheettitle"><div style="position:sticky;left:8px;width:max-content">MONITORING — ${esc(sh.toUpperCase())} (${esc(shiftLabel(sh))}) — ${esc(fmtD(d))}</div></th></tr><tr><th rowspan="2" class="c1">ROOM</th><th rowspan="2" class="c2">STD</th><th colspan="${cols.length}">TIME</th></tr><tr>${cols.map(k=>{if(!k)return"<th>&nbsp;</th>";let[dt,h]=k.split("|");return `<th>${h}:00<br><small>${esc(fmtS(dt))}</small></th>`}).join("")}</tr></thead>`;
 let body=areas.map((a,i)=>{
   let isRowActive = selectedSheetArea === a[0];
-  return `<tr class="${isRowActive?'active-row':''}" onclick="selectSheetRow('${esc(a[0])}')"><td class="room c1">${i+1}. ${esc(a[0])}</td><td class="c2">${esc(a[3])}</td>${cols.map(k=>{if(!k)return'<td class="cell"></td>';let[dt,h]=k.split("|"),rs=recs.filter(r=>r.area===a[0]&&r.date===dt&&r.time.slice(0,2)===h).sort((x,y)=>x.id-y.id);return `<td class="cell">${rs.map(r=>`<div class="rd${r.assessment==="Deviation"?" dev":""}${activeReadingId===r.id?" active-rd":""}" onclick="event.stopPropagation();viewRecord(${r.id},'${esc(a[0])}')" title="${esc(r.monitor)} • ${esc(r.time)}"><span class="t">${Number(r.temp).toFixed(1)}</span><br><span class="tm">${esc(r.time.slice(0,5))}</span></div>`).join("")}</td>`}).join("")}</tr>`;
+  return `<tr class="${isRowActive?'active-row':''}" onclick="selectSheetRow('${esc(a[0])}')"><td class="room c1">${i+1}. ${esc(a[0])}</td><td class="c2">${esc(a[3])}</td>${cols.map(k=>{if(!k)return'<td class="cell"></td>';let[dt,h]=k.split("|"),rs=recs.filter(r=>r.area===a[0]&&r.date===dt&&r.time.slice(0,2)===h).sort((x,y)=>x.id-y.id);return `<td class="cell">${rs.map(r=>`<div class="rd${r.assessment==="Deviation"?" dev":""}${activeReadingId===r.id?" active-rd":""}" onclick="event.stopPropagation();viewRecord(${r.id},'${esc(a[0])}')" title="${esc(r.monitor)} • ${esc(r.time)}"><span class="t">${Number(r.temp).toFixed(1)}°C</span><br><span class="tm">${esc(r.time.slice(0,5))}</span></div>`).join("")}</td>`}).join("")}</tr>`;
 }).join("");
 $("sheetTable").innerHTML=head+`<tbody>${body}</tbody>`;
 
@@ -711,7 +760,7 @@ let label=new Date(d+"T00:00:00").toLocaleDateString(undefined,{year:"numeric",m
 let head=`<thead><tr><th colspan="${cols.length+2}" class="sheettitle"><div style="position:sticky;left:8px;width:max-content">COUNTERCHECKING — ${esc(label)}</div></th></tr><tr><th rowspan="2" class="c1">ROOM</th><th rowspan="2" class="c2">STD</th><th colspan="${cols.length}">TIME</th></tr><tr>${cols.map(h=>`<th>${h===null?"&nbsp;":pad(h)+":00"}</th>`).join("")}</tr></thead>`;
 let body=areas.map((a,i)=>{
   let isRowActive = selectedCounterArea === a[0];
-  return `<tr class="${isRowActive?'active-row':''}" onclick="selectCounterRow('${esc(a[0])}')"><td class="room c1" style="cursor:pointer" onclick="event.stopPropagation();counterPick(areas[${i}][0])" title="Counter check this area">${i+1}. ${esc(a[0])}</td><td class="c2">${esc(a[3])}</td>${cols.map(h=>{if(h===null)return '<td class="cell"></td>';let rs=recs.filter(r=>r.area===a[0]&&Number(r.time.slice(0,2))===h).sort((x,y)=>x.id-y.id);return `<td class="cell">${rs.map(r=>`<div class="rd${r.assessment==="Deviation"||r.result==="Discrepancy"?" dev":""}${activeReadingId===r.id?" active-rd":""}" onclick="event.stopPropagation();viewCounter(${r.id},'${esc(a[0])}')" title="${esc(r.checker)} • ${esc(r.time)}"><span class="t">${Number(r.temp).toFixed(1)}</span><br><span class="tm">${esc(r.time.slice(0,5))}</span></div>`).join("")}</td>`}).join("")}</tr>`;
+  return `<tr class="${isRowActive?'active-row':''}" onclick="selectCounterRow('${esc(a[0])}')"><td class="room c1" style="cursor:pointer" onclick="event.stopPropagation();counterPick(areas[${i}][0])" title="Counter check this area">${i+1}. ${esc(a[0])}</td><td class="c2">${esc(a[3])}</td>${cols.map(h=>{if(h===null)return '<td class="cell"></td>';let rs=recs.filter(r=>r.area===a[0]&&Number(r.time.slice(0,2))===h).sort((x,y)=>x.id-y.id);return `<td class="cell">${rs.map(r=>`<div class="rd${r.assessment==="Deviation"||r.result==="Discrepancy"?" dev":""}${activeReadingId===r.id?" active-rd":""}" onclick="event.stopPropagation();viewCounter(${r.id},'${esc(a[0])}')" title="${esc(r.checker)} • ${esc(r.time)}"><span class="t">${Number(r.temp).toFixed(1)}°C</span><br><span class="tm">${esc(r.time.slice(0,5))}</span></div>`).join("")}</td>`}).join("")}</tr>`;
 }).join("");
 $("counterSheet").innerHTML=head+`<tbody>${body}</tbody>`}
 $("cSheetDate").value=currentStamp().date;$("cSheetDate").addEventListener("input",()=>{renderCounterSheet();renderCounterSigs()});
