@@ -63,7 +63,7 @@ A real-time, multi-device, cloud-connected temperature logging and quality verif
 git add .
 git commit -m "Initial commit: MHC Temperature Monitoring System with Cloud Storage"
 git branch -M main
-git remote add origin https://github.com/mattdev18/mhc-temperature-monitoring-system.git
+git remote add origin https://github.com/mayharvestcdc01-eng/mhc-temperature-monitoring-system.git
 git push -u origin main
 ```
 
