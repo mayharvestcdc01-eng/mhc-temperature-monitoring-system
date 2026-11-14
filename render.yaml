@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: mhc-temperature-monitoring-system
+    runtime: node
+    plan: free
+    region: singapore # Pinakamalapit sa Pilipinas para mabilis ang loading
+    buildCommand: npm install
+    startCommand: node server.js
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: TURSO_DB_URL
+        sync: false # I-set sa Render Dashboard Environment Variables
+      - key: TURSO_DB_TOKEN
+        sync: false # I-set sa Render Dashboard Environment Variables

@@ -1,0 +1,29 @@
+{
+  "name": "mhc-temperature-monitoring-system",
+  "version": "1.0.0",
+  "description": "Hourly Room Temperature Monitoring System for Cold Storage, Holding Rooms, Blast Freezing, and Production Areas with Central Cloud Storage",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "keywords": [
+    "mhc",
+    "temperature-monitoring",
+    "cold-storage",
+    "render",
+    "turso"
+  ],
+  "author": "Matthew Bernardo Ponce",
+  "license": "ISC",
+  "dependencies": {
+    "@libsql/client": "^0.14.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  }
+}
