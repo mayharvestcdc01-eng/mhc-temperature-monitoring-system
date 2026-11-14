@@ -152,6 +152,32 @@ footer{text-align:center;color:#7b8b98;font-size:11px;padding:12px}
  .rl-room{grid-column:2 / -1}.rl-std{grid-column:2 / -1}.rl-temp{grid-column:1 / -1}
  .rl-time{grid-column:1 / 3}.rl-stat{grid-column:3;text-align:right}.rl-rem{grid-column:1 / -1}
 }
+
+/* ===== Counter Check Room list entry ===== */
+.c-rl-head,.c-rl-row{display:grid;grid-template-columns:36px minmax(170px,1.4fr) minmax(130px,0.9fr) minmax(180px,1.3fr) minmax(170px,1.1fr) minmax(120px,0.8fr) minmax(145px,1fr);gap:10px;align-items:center;padding:9px 12px}
+.c-rl-head{background:#f0fdf4;font-size:11px;font-weight:750;color:#166534;border-bottom:1px solid var(--line)}
+.c-rl-row{border-top:1px solid var(--line);transition:background .2s}
+.c-rl-row:focus-within{background:#f0fdf4!important;border-left:4px solid var(--green)}
+.c-rl-row.filled{background:#f4fafc}
+.c-rl-row.dev{background:#fff4f1}
+.c-rl-row.matched{background:#f0fdf4}
+.c-rl-row .c-latest{font-size:11.5px;color:#334155;line-height:1.35}
+.c-rl-row .c-latest b{color:var(--navy);font-variant-numeric:tabular-nums}
+.c-rl-row .c-latest small{color:var(--muted);display:block}
+.c-rl-row .c-diff{font-size:11px;line-height:1.3}
+.c-rl-row .c-diff b{font-size:12px;display:block}
+.c-rl-rem{grid-column:2 / -1}
+@media(max-width:960px){
+ .c-rl-head{display:none}
+ .c-rl-row{grid-template-columns:30px 1fr 1fr;row-gap:8px}
+ .c-rl-room{grid-column:2 / -1}
+ .c-rl-std{grid-column:2 / -1}
+ .c-rl-latest{grid-column:1 / -1}
+ .c-rl-temp{grid-column:1 / -1}
+ .c-rl-time{grid-column:1 / 3}
+ .c-rl-stat{grid-column:3;text-align:right}
+ .c-rl-rem{grid-column:1 / -1}
+}
 </style>
 <script src="/socket.io/socket.io.js"></script>
 </head>
@@ -240,23 +266,24 @@ footer{text-align:center;color:#7b8b98;font-size:11px;padding:12px}
   <div class="tablewrap"><table><thead><tr><th>Date / Time</th><th>Area</th><th>Actual °C</th><th>Standard</th><th>PLI Monitor / OIC-PLI Counter Check</th><th>Thermometer / Calibration</th><th>Assessment</th><th>Verification</th><th>Action</th></tr></thead><tbody id="recordsBody"></tbody></table></div>
  </section>
  <section id="counter" class="panel hidden">
-  <h2>3. Counter Checking (per Area)</h2>
-  <div class="notice">Counter checking is an independent check of the room temperature. The counter checker reads the temperature of the area using his/her own thermometer, and the system compares it with the latest hourly monitoring reading of the same area. A difference of more than <b id="tolText"></b> is flagged as a discrepancy. The counter checker must be a different person from the one who monitored.</div>
-  <h3 id="counterFormTitle" style="margin-top:22px">New Counter Check</h3>
+  <h2>3. Counter Checking Entry (All Rooms)</h2>
+  <div class="notice">Counter checking is an independent verification of room temperatures by the OIC / PLI. Select personnel and shift, then enter the reading beside each room. The time is automatically captured per room. The system immediately compares your reading with the latest monitoring reading of that room. A difference of more than <b id="tolText"></b> is flagged as a discrepancy. The counter checker must be a different person from the monitor.</div>
+  <h3 id="counterFormTitle" style="margin-top:22px">Counter Check Entry Form</h3>
   <form id="counterForm">
    <div class="grid">
-    <div class="field"><label for="cChecker">COUNTER CHECKED BY *</label><input id="cChecker" list="cPeople" placeholder="Enter complete name" required><datalist id="cPeople"></datalist></div>
+    <div class="field"><label for="cChecker">COUNTER CHECKED BY (OIC / PLI) *</label><select id="cChecker" required><option value="">Select personnel</option></select></div>
     <div class="field"><label for="cShift">SHIFT *</label><select id="cShift" required><option value="">Select shift</option><option value="Day Shift">Day Shift (5:00 AM – 2:00 PM)</option><option value="Mid Shift">Mid Shift (1:00 PM – 10:00 PM)</option><option value="Night Shift">Night Shift (9:00 PM – 6:00 AM)</option></select></div>
-    <div class="field wide"><label for="cArea">AREA TO BE COUNTER CHECKED *</label><select id="cArea" required><option value="">Select area</option></select></div>
-    <div class="field"><label for="cTemp">COUNTER CHECK TEMPERATURE (°C) *</label><input type="number" id="cTemp" step="0.1" placeholder="e.g. -18.5" required></div>
-    <div class="field"><label>REQUIRED TEMPERATURE STANDARD</label><input id="cStandard" readonly placeholder="Auto-filled based on area"></div>
-    <div class="field wide"><label>LATEST MONITORING READING (BEING COUNTER CHECKED)</label><input id="cLinked" readonly placeholder="Auto-filled based on area"></div>
     <div class="field"><label for="cThermo">THERMOMETER ITEM CODE *</label><input id="cThermo" placeholder="Enter item code" required></div>
     <div class="field"><label for="cCalib">CALIBRATION DATE *</label><input type="date" id="cCalib" required></div>
-    <div class="field wide"><label for="cRemarks">REMARKS / ACTION TAKEN (if applicable)</label><textarea id="cRemarks" rows="2" placeholder="Indicate action taken for discrepancy or out-of-standard readings"></textarea></div>
    </div>
-   <div id="cAssessment" class="notice">Counter check assessment will appear here after selecting an area and entering a reading.</div>
-   <div class="actions"><button type="submit" id="saveCounterBtn">Save Counter Check</button><button type="reset" class="secondary" onclick="setTimeout(()=>{cAssess()},0)">Clear Form</button></div>
+   <h3 style="margin-top:22px">Rooms / Areas to Counter Check</h3>
+   <div class="clockbar">Current date and time: <b id="cLiveClock">--</b></div>
+   <div class="rooms">
+    <div class="c-rl-head"><div>#</div><div>ROOM / AREA</div><div>STANDARD</div><div>LATEST MONITOR READING</div><div>ACTUAL COUNTER TEMP</div><div>TIME RECORDED</div><div>DIFFERENCE &amp; STATUS</div></div>
+    <div id="cRoomRows"></div>
+   </div>
+   <div id="cAssessment" class="notice">Type a reading beside any room. Its difference from the latest monitoring reading, status, and time will appear here and in the row.</div>
+   <div class="actions"><button type="submit" id="saveCounterBtn">Save Counter Checks</button><button type="reset" class="secondary" onclick="setTimeout(resetCounterAssessment,0)">Clear Form</button></div>
   </form>
   <h3 style="margin-top:26px">Counter Checking Checklist</h3>
   <div id="counterSheetBlock">
@@ -337,11 +364,10 @@ function selectCounterRow(area){
 // Populate personnel & areas
 personnel.forEach(p=>{
   $("monitor").add(new Option(p,p));
-  $("cPeople").appendChild(new Option(p,p));
+  if($("cChecker")) $("cChecker").add(new Option(p,p));
 });
 areas.forEach(a=>{
   $("filterArea").add(new Option(a[0],a[0]));
-  $("cArea").add(new Option(a[0],a[0]));
 });
 
 const pad=n=>String(n).padStart(2,"0");
@@ -383,6 +409,7 @@ async function loadData(silent = false) {
       weeklyVer = json.weeklyVerifications || {};
       render();
       refreshLocks();
+      refreshCounterLatest();
       setSyncStatus('ok', 'Cloud Synced');
     }
   } catch (err) {
@@ -611,66 +638,280 @@ $("tolText").textContent="±"+COUNTER_TOL.toFixed(1)+"°C";
 const stampMs=r=>new Date(r.date+"T"+r.time).getTime();
 const latestMon=area=>data.filter(r=>r.area===area).sort((a,b)=>b.id-a.id)[0];
 
-function cAssess(){let area=$("cArea").value,t=$("cTemp").value,box=$("cAssessment");
-if(!area){$("cStandard").value="";$("cLinked").value="";box.className="notice";box.textContent="Select an area and enter the counter check reading.";return}
-let a=areas.find(x=>x[0]===area),l=latestMon(area);$("cStandard").value=a[3];
-$("cLinked").value=l?`${Number(l.temp).toFixed(1)}°C • ${l.monitor} • ${l.date} ${l.time}`:"No monitoring reading yet for this area";
-if(t===""){box.className="notice";box.textContent="Enter the counter check temperature to assess.";return}
-let temp=Number(t),ok=isCompliant(area,temp),msg=ok?"WITHIN STANDARD – Counter check reading meets the temperature standard.":"OUT OF STANDARD – Counter check reading is outside the specified standard. Document immediate action and notify the responsible personnel.",bad=!ok;
-if(l){let d=Math.abs(temp-l.temp),mins=Math.round((Date.now()-stampMs(l))/60000);msg+=` Difference vs monitoring reading: ${d.toFixed(1)}°C (${d<=COUNTER_TOL?"within":"EXCEEDS"} ±${COUNTER_TOL.toFixed(1)}°C).`;if(d>COUNTER_TOL)bad=true;if(mins>90)msg+=` Note: the latest monitoring reading is ${mins} minutes old.`}
-else msg+=" No monitoring reading is available to compare with.";
-box.className="notice "+(bad?"alert":"good");box.textContent=msg}
-$("cArea").addEventListener("change",cAssess);$("cTemp").addEventListener("input",cAssess);
+/* ===== Counter Check Room List Logic ===== */
+const cRl = { state: [] };
+
+function buildCounterRoomList(){
+  $("cRoomRows").innerHTML = areas.map((a, i) => {
+    return `<div class="c-rl-row" id="crl${i}">
+      <div class="rl-no">${i+1}</div>
+      <div class="rl-room c-rl-room">${esc(a[0])}</div>
+      <div class="rl-std c-rl-std">${esc(a[3])}</div>
+      <div class="c-latest c-rl-latest" id="clat${i}"><small style="color:var(--muted)">Checking latest reading...</small></div>
+      <div class="c-rl-temp">
+        <div class="tempbox">
+          <button type="button" class="signbtn" id="crlb${i}" data-i="${i}" tabindex="-1" title="Switch between negative and positive" aria-label="Toggle minus sign">&plusmn;</button>
+          <input class="tin" id="ctin${i}" data-i="${i}" type="text" inputmode="decimal" autocomplete="off" placeholder="Enter temp" aria-label="Counter check temperature for ${esc(a[0])}">
+        </div>
+      </div>
+      <div class="rl-time c-rl-time" id="crlt${i}"><b></b><small></small></div>
+      <div class="c-diff c-rl-stat" id="crls${i}"></div>
+      <div class="c-rl-rem hidden" id="crlr${i}"><input id="crlri${i}" placeholder="Remarks / action taken (discrepancy or out of standard)"></div>
+    </div>`;
+  }).join("");
+
+  const box = $("cRoomRows");
+  box.addEventListener("input", e => {
+    if(e.target.classList.contains("tin")) onCounterTemp(Number(e.target.dataset.i));
+  });
+  box.addEventListener("click", e => {
+    const b = e.target.closest(".signbtn");
+    if(b){ toggleCounterSign(Number(b.dataset.i)); return; }
+    if(e.target.classList.contains("tin")) clampCaret(e.target);
+  });
+  box.addEventListener("focusin", e => {
+    if(e.target.classList.contains("tin")) clampCaret(e.target);
+  });
+  box.addEventListener("keydown", e => {
+    if(e.key === "Enter" && e.target.classList.contains("tin")){
+      e.preventDefault();
+      let n = Number(e.target.dataset.i) + 1;
+      while(n < areas.length){
+        const nx = $("ctin" + n);
+        if(nx && !nx.disabled){ nx.focus(); return; }
+        n++;
+      }
+      e.target.blur();
+    }
+  });
+
+  refreshCounterLatest();
+}
+
+function toggleCounterSign(i){
+  const inp = $("ctin" + i);
+  let raw = cleanTemp(inp.value);
+  raw = raw.charAt(0) === "-" ? raw.slice(1) : "-" + raw;
+  setTemp(inp, raw);
+  inp.focus();
+  onCounterTemp(i);
+}
+
+function onCounterTemp(i){
+  const inp = $("ctin" + i);
+  const raw = cleanTemp(inp.value);
+  setTemp(inp, raw);
+  if(!/\d/.test(raw)){
+    cRl.state[i] = null;
+  } else {
+    cRl.state[i] = { stamp: currentStamp(), temp: Number(raw) };
+  }
+  paintCounterRow(i);
+  updateCounterSummary();
+}
+
+function paintCounterRow(i){
+  const s = cRl.state[i], row = $("crl" + i), tm = $("crlt" + i), st = $("crls" + i), rem = $("crlr" + i);
+  if(!s){
+    tm.classList.remove("on");
+    tm.querySelector("b").textContent = "";
+    tm.querySelector("small").textContent = "";
+    st.innerHTML = "";
+    rem.classList.add("hidden");
+    row.className = "c-rl-row";
+    return;
+  }
+
+  const a = areas[i];
+  const l = latestMon(a[0]);
+  const ok = isCompliant(a[0], s.temp);
+  let d = l ? Math.round(Math.abs(s.temp - l.temp) * 10) / 10 : null;
+  let isMatch = l ? d <= COUNTER_TOL : null;
+
+  tm.querySelector("b").textContent = s.stamp.time;
+  tm.querySelector("small").textContent = s.stamp.date;
+  if(!tm.classList.contains("on")) tm.classList.add("on");
+
+  let badgeHtml = "";
+  if(l){
+    if(isMatch){
+      badgeHtml = `<span class="status ok">Matched (±${d.toFixed(1)}°C)</span>`;
+    } else {
+      badgeHtml = `<span class="status bad">Discrepancy (±${d.toFixed(1)}°C)</span>`;
+    }
+  } else {
+    badgeHtml = `<span class="status neutral">No Monitor Rec</span>`;
+  }
+
+  if(!ok){
+    badgeHtml += `<br><span class="status bad" style="margin-top:2px">Out of Std</span>`;
+  }
+
+  st.innerHTML = badgeHtml;
+  rem.classList.toggle("hidden", ok && (isMatch === null || isMatch === true));
+  row.className = "c-rl-row filled" + (!ok || isMatch === false ? " dev" : " matched");
+}
+
+function updateCounterSummary(){
+  const box = $("cAssessment");
+  let n = 0, disc = 0, dev = 0;
+  areas.forEach((a, i) => {
+    const s = cRl.state[i];
+    if(s){
+      n++;
+      const l = latestMon(a[0]);
+      if(!isCompliant(a[0], s.temp)) dev++;
+      if(l && Math.abs(s.temp - l.temp) > COUNTER_TOL) disc++;
+    }
+  });
+
+  if(!n){
+    box.className = "notice";
+    box.textContent = "Type a reading beside any room. Its difference from the latest monitoring reading, status, and time will appear here and in the row.";
+    return;
+  }
+
+  const isProblem = disc > 0 || dev > 0;
+  box.className = "notice " + (isProblem ? "alert" : "good");
+  box.textContent = `${n} room(s) counter-checked • ${n - disc} matched within ±${COUNTER_TOL.toFixed(1)}°C • ${disc} discrepancy • ${dev} out of standard. Press Save Counter Checks to submit.` + (isProblem ? " Document remarks/action taken for any discrepancy or out-of-standard readings." : "");
+}
+
+function refreshCounterLatest(){
+  areas.forEach((a, i) => {
+    const el = $("clat" + i);
+    if(!el) return;
+    const l = latestMon(a[0]);
+    el.innerHTML = l 
+      ? `<b>${Number(l.temp).toFixed(1)}°C</b> <small>${esc(l.monitor)} • ${esc(l.time.slice(0,5))}</small>`
+      : `<small style="color:var(--muted)">No record yet</small>`;
+    if(cRl.state[i]) paintCounterRow(i);
+  });
+}
+
+function resetCounterAssessment(){
+  areas.forEach((a, i) => {
+    cRl.state[i] = null;
+    const inp = $("ctin" + i);
+    if(inp) inp.value = "";
+    if($("crlri" + i)) $("crlri" + i).value = "";
+    paintCounterRow(i);
+  });
+  updateCounterSummary();
+}
 
 $("counterForm").addEventListener("submit", async e=>{
   e.preventDefault();
-  let area=$("cArea").value,temp=Number($("cTemp").value),checker=$("cChecker").value.trim(),l=latestMon(area);
-  if(l&&l.monitor.trim().toLowerCase()===checker.toLowerCase()){alert("The counter checker must be a different person from the one who monitored ("+l.monitor+").");$("cChecker").focus();return}
-  let st=currentStamp(),d=l?Math.round(Math.abs(temp-l.temp)*10)/10:null;
-  let r={
-    id:Date.now(),
-    date:st.date,
-    time:st.time,
-    checker,
-    shift:$("cShift").value,
-    area,
-    temp,
-    standard:standard(areas.find(a=>a[0]===area)),
-    thermo:$("cThermo").value.trim(),
-    calibration:$("cCalib").value,
-    remarks:$("cRemarks").value.trim(),
-    assessment:isCompliant(area,temp)?"Compliant":"Deviation",
-    linkedId:l?l.id:"",
-    linkedTemp:l?l.temp:"",
-    linkedMonitor:l?l.monitor:"",
-    linkedStamp:l?l.date+" "+l.time:"",
-    diff:d,
-    result:l?(d<=COUNTER_TOL?"Matched":"Discrepancy"):"No Linked Reading"
-  };
+  const checker = $("cChecker").value.trim();
+  const shift = $("cShift").value;
+  const thermo = $("cThermo").value.trim();
+  const calibration = $("cCalib").value;
+
+  const filled = [];
+  areas.forEach((a, i) => {
+    if(cRl.state[i]) filled.push(i);
+  });
+
+  if(!filled.length){
+    alert("Enter a counter check temperature for at least one room before saving.");
+    return;
+  }
+
+  // Validate that checker is different from monitor
+  const sameMonitorRooms = [];
+  filled.forEach(i => {
+    const a = areas[i];
+    const l = latestMon(a[0]);
+    if(l && l.monitor.trim().toLowerCase() === checker.toLowerCase()){
+      sameMonitorRooms.push(a[0]);
+    }
+  });
+
+  if(sameMonitorRooms.length){
+    alert("POLICY CONFLICT: The counter checker must be a different person from the one who monitored (" + checker + ").\n\nConflicts detected in:\n• " + sameMonitorRooms.join("\n• "));
+    $("cChecker").focus();
+    return;
+  }
+
+  const noRem = filled.filter(i => {
+    const a = areas[i], s = cRl.state[i], l = latestMon(a[0]);
+    const isDev = !isCompliant(a[0], s.temp);
+    const isDisc = l && Math.abs(s.temp - l.temp) > COUNTER_TOL;
+    const hasRem = $("crlri" + i) && $("crlri" + i).value.trim();
+    return (isDev || isDisc) && !hasRem;
+  });
+
+  if(noRem.length && !confirm(`${noRem.length} room(s) have discrepancy or out-of-standard readings without remarks:\n\n• ${noRem.map(i => areas[i][0]).join("\n• ")}\n\nSave anyway?`)){
+    return;
+  }
+
+  const base = Date.now();
+  const recordsToSave = [];
+  filled.forEach((i, k) => {
+    const a = areas[i], s = cRl.state[i], l = latestMon(a[0]);
+    const d = l ? Math.round(Math.abs(s.temp - l.temp) * 10) / 10 : null;
+    const ok = isCompliant(a[0], s.temp);
+    recordsToSave.push({
+      id: base + k,
+      date: s.stamp.date,
+      time: s.stamp.time,
+      checker,
+      shift,
+      area: a[0],
+      temp: s.temp,
+      standard: standard(a),
+      thermo,
+      calibration,
+      remarks: $("crlri" + i) ? $("crlri" + i).value.trim() : "",
+      assessment: ok ? "Compliant" : "Deviation",
+      linkedId: l ? l.id : "",
+      linkedTemp: l ? l.temp : "",
+      linkedMonitor: l ? l.monitor : "",
+      linkedStamp: l ? l.date + " " + l.time : "",
+      diff: d,
+      result: l ? (d <= COUNTER_TOL ? "Matched" : "Discrepancy") : "No Linked Reading"
+    });
+  });
 
   $("saveCounterBtn").disabled = true;
-  setSyncStatus('syncing', 'Saving counter check...');
+  setSyncStatus('syncing', 'Saving counter checks...');
   try {
     const res = await fetch('/api/counter-checks', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(r)
+      body: JSON.stringify({ counterChecks: recordsToSave })
     });
     const json = await res.json();
     if (!json.success) throw new Error(json.error || 'Server error');
     e.target.reset();
-    cAssess();
+    resetCounterAssessment();
     await loadData();
-    alert("Counter check saved successfully.");
+    alert(`${recordsToSave.length} counter check record(s) saved successfully.`);
   } catch (err) {
-    alert("Failed to save counter check: " + err.message);
+    alert("Failed to save counter checks: " + err.message);
   } finally {
     $("saveCounterBtn").disabled = false;
   }
 });
 
-function counterPick(area){showTab("counter");$("cArea").value=area;cAssess();$("counterFormTitle").scrollIntoView({behavior:"smooth",block:"start"});$("cChecker").focus()}
-function renderCounter(){renderCounterSheet();renderCounterSigs();initPad($("cSheetSigPad"))}
+function counterPick(area){
+  showTab("counter");
+  const idx = areas.findIndex(a => a[0] === area);
+  if(idx !== -1){
+    const row = $("crl" + idx);
+    if(row){
+      row.scrollIntoView({ behavior: "smooth", block: "center" });
+      const inp = $("ctin" + idx);
+      if(inp) inp.focus();
+    }
+  }
+}
+
+function renderCounter(){
+  refreshCounterLatest();
+  renderCounterSheet();
+  renderCounterSigs();
+  initPad($("cSheetSigPad"));
+}
 
 const SHIFTS={"Day Shift":[5,14],"Mid Shift":[13,22],"Night Shift":[21,6]};
 const h12=h=>`${h%12||12}:00 ${h<12?"AM":"PM"}`;
@@ -848,6 +1089,7 @@ async function submitWeek(){
 }
 
 buildRoomList();
+buildCounterRoomList();
 refreshLocks();
 (function(){
   const tick=()=>{
@@ -864,9 +1106,15 @@ refreshLocks();
     if($("topHeaderDate")) $("topHeaderDate").textContent = dateStr;
     if($("topHeaderTime")) $("topHeaderTime").textContent = timeStr;
 
+    const clockFormatted = d.toLocaleDateString(undefined, {year:"numeric", month:"short", day:"numeric"}) + "  " + pad(d.getHours()) + ":" + pad(d.getMinutes()) + ":" + pad(d.getSeconds());
+
     // Data entry live clock
     if($("liveClock")) {
-      $("liveClock").textContent = d.toLocaleDateString(undefined, {year:"numeric", month:"short", day:"numeric"}) + "  " + pad(d.getHours()) + ":" + pad(d.getMinutes()) + ":" + pad(d.getSeconds());
+      $("liveClock").textContent = clockFormatted;
+    }
+    // Counter checking live clock
+    if($("cLiveClock")) {
+      $("cLiveClock").textContent = clockFormatted;
     }
   };
   tick();

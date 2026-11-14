@@ -115,40 +115,51 @@ app.post('/api/records', async (req, res) => {
     }
 });
 
-// 3. Save Counter Check
+// 3. Save Counter Check(s) - Supports both single record and batch
 app.post('/api/counter-checks', async (req, res) => {
     try {
-        const r = req.body;
-        await db.run(`
-            INSERT INTO counter_checks
-            (id, date, time, checker, shift, area, temp, standard, thermo, calibration, remarks, assessment, linkedId, linkedTemp, linkedMonitor, linkedStamp, diff, result, signature)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `, [
-            r.id,
-            r.date,
-            r.time,
-            r.checker,
-            r.shift,
-            r.area,
-            r.temp,
-            r.standard,
-            r.thermo,
-            r.calibration,
-            r.remarks || '',
-            r.assessment,
-            String(r.linkedId || ''),
-            r.linkedTemp !== undefined && r.linkedTemp !== '' ? Number(r.linkedTemp) : null,
-            r.linkedMonitor || '',
-            r.linkedStamp || '',
-            r.diff !== null && r.diff !== undefined ? Number(r.diff) : null,
-            r.result || '',
-            r.signature || ''
-        ]);
+        const items = Array.isArray(req.body.counterChecks)
+            ? req.body.counterChecks
+            : Array.isArray(req.body)
+                ? req.body
+                : [req.body];
 
-        io.emit('data:changed', { type: 'counter-check', id: r.id });
-        res.json({ success: true, id: r.id });
+        if (items.length === 0) {
+            return res.status(400).json({ success: false, error: 'No counter check records provided' });
+        }
+
+        for (const r of items) {
+            await db.run(`
+                INSERT INTO counter_checks
+                (id, date, time, checker, shift, area, temp, standard, thermo, calibration, remarks, assessment, linkedId, linkedTemp, linkedMonitor, linkedStamp, diff, result, signature)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            `, [
+                r.id,
+                r.date,
+                r.time,
+                r.checker,
+                r.shift,
+                r.area,
+                r.temp,
+                r.standard,
+                r.thermo,
+                r.calibration,
+                r.remarks || '',
+                r.assessment,
+                String(r.linkedId || ''),
+                r.linkedTemp !== undefined && r.linkedTemp !== '' && r.linkedTemp !== null ? Number(r.linkedTemp) : null,
+                r.linkedMonitor || '',
+                r.linkedStamp || '',
+                r.diff !== null && r.diff !== undefined ? Number(r.diff) : null,
+                r.result || '',
+                r.signature || ''
+            ]);
+        }
+
+        io.emit('data:changed', { type: 'counter-check', count: items.length });
+        res.json({ success: true, count: items.length });
     } catch (err) {
-        console.error('Error saving counter check:', err);
+        console.error('Error saving counter check(s):', err);
         res.status(500).json({ success: false, error: err.message });
     }
 });
