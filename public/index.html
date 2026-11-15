@@ -107,6 +107,58 @@ small,.hint{color:var(--muted);font-size:11px}.actions{display:flex;gap:9px;flex
 /* Active Selected Reading Cell */
 .sheet .rd.active-rd{outline:2.5px solid #16a34a!important;background:#ffffff!important;box-shadow:0 0 8px rgba(22,163,74,0.6)!important;transform:scale(1.08)!important}
 
+/* Counter Check Indicator inside Monitoring Sheet */
+.cc-badge{display:block;font-size:9.5px;font-weight:750;padding:1px 4px;border-radius:3px;margin-top:2px;letter-spacing:0.2px}
+.cc-badge.ok{background:#dcfce7;color:#166534;border:1px solid #86efac}
+.cc-badge.bad{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
+.rd.cc-only{background:#f0fdf4;border:1px dashed #16a34a}
+
+/* ===== Official PDF Report Modal & Styling ===== */
+.modal-overlay{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(13,74,43,0.78);backdrop-filter:blur(4px);z-index:1000;display:flex;justify-content:center;align-items:center;padding:16px}
+.modal-container{background:#fff;border-radius:12px;width:100%;max-width:1240px;max-height:94vh;display:flex;flex-direction:column;box-shadow:0 12px 35px rgba(0,0,0,0.45);overflow:hidden}
+.modal-header{padding:14px 22px;background:linear-gradient(135deg,#0d4a2b,#15803d);color:#fff;display:flex;justify-content:space-between;align-items:center}
+.modal-header h2{font-size:16px;margin:0;color:#fff;font-weight:750}
+.close-btn{background:none;border:none;color:#fff;font-size:26px;cursor:pointer;line-height:1;padding:0 4px}
+.close-btn:hover{color:#86efac}
+.modal-controls{padding:12px 22px;background:#f8fafc;border-bottom:1px solid var(--line);display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
+.pdf-report-content{padding:26px 32px;overflow-y:auto;flex:1;background:#fff;color:#111827;font-family:"Segoe UI",Arial,sans-serif}
+.modal-footer{padding:12px 22px;background:#f8fafc;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:10px}
+
+/* PDF Document Layout */
+.pdf-doc-header{display:flex;align-items:center;justify-content:space-between;border-bottom:2.5px solid #15803d;padding-bottom:14px;margin-bottom:16px}
+.pdf-brand{display:flex;align-items:center;gap:14px}
+.pdf-logo{width:56px;height:56px;object-fit:contain;background:#fff;border-radius:8px;padding:3px;border:1px solid #dcfce7}
+.pdf-title-block h1{font-size:18px;font-weight:800;color:#0d4a2b;margin:0;letter-spacing:0.5px}
+.pdf-title-block h2{font-size:12.5px;color:#15803d;font-weight:700;margin:3px 0 0}
+.pdf-meta-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 14px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;font-size:11.5px;margin-bottom:18px}
+.pdf-meta-item small{display:block;font-size:10px;font-weight:700;color:#166534;text-transform:uppercase}
+.pdf-meta-item b{font-size:12px;color:#0f172a}
+.pdf-table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:22px}
+.pdf-table th,.pdf-table td{border:1px solid #64748b;padding:6px 8px;text-align:left;vertical-align:middle}
+.pdf-table th{background:#e2e8f0;color:#0f172a;font-weight:750;text-align:center}
+.pdf-table td.center{text-align:center}
+.pdf-table td.bold{font-weight:700}
+.pdf-table td.room{font-weight:650;color:#0d4a2b}
+
+/* Tri-Signature Block in PDF */
+.pdf-tri-sigs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px;page-break-inside:avoid}
+.pdf-sig-box{border:1.5px solid #cbd5e1;border-radius:8px;padding:12px;background:#f8fafc}
+.pdf-sig-box h4{margin:0 0 8px;font-size:11px;color:#0d4a2b;font-weight:750;text-transform:uppercase;border-bottom:1px solid #cbd5e1;padding-bottom:4px}
+.pdf-sig-img{height:60px;width:100%;object-fit:contain;display:block;background:#fff;border:1px dashed #cbd5e1;border-radius:4px;margin-bottom:6px}
+.pdf-sig-blank{height:60px;border:1px dashed #cbd5e1;border-radius:4px;margin-bottom:6px;background:#fff;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:11px;font-style:italic}
+.pdf-sig-info p{margin:2px 0;font-size:11px}
+.pdf-sig-info b{color:#0f172a}
+
+/* Printing Optimization */
+@media print{
+  body.pdf-printing{background:#fff!important}
+  body.pdf-printing header,body.pdf-printing .wrap,body.pdf-printing footer,body.pdf-printing .noprint,body.pdf-printing .modal-controls,body.pdf-printing .modal-header,body.pdf-printing .modal-footer{display:none!important}
+  body.pdf-printing #pdfModal{position:static!important;background:none!important;padding:0!important;display:block!important}
+  body.pdf-printing .modal-container{box-shadow:none!important;max-width:none!important;max-height:none!important;border-radius:0!important}
+  body.pdf-printing .pdf-report-content{padding:0!important;overflow:visible!important}
+  body.pdf-printing .pdf-table th,body.pdf-printing .pdf-table td{border:1px solid #000!important}
+}
+
 .sigpad{display:block;width:100%;max-width:520px;height:150px;border:1.5px dashed #8aa0ad;border-radius:8px;background:#fff;touch-action:none;margin:8px 0}.sigrow{display:flex;gap:28px;flex-wrap:wrap;margin-top:16px}.sigrow>div{width:220px}.sigrow img{display:block;width:220px;height:80px;object-fit:contain;border-bottom:1px solid #333}.sigrow .blank{height:80px;border-bottom:1px solid #333}.sigrow p{margin:4px 0;font-size:12px}.sigrow .rm{font-size:11px;padding:2px 8px;margin-top:2px}
 .sheetbar{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;margin-bottom:10px}.sheetbar .field{min-width:180px}.legend{font-size:11px;color:var(--muted)}.legend b{display:inline-block;width:12px;height:12px;background:#fde9e7;border:1px solid #a42b21;border-radius:3px;vertical-align:-2px;margin-right:4px}
 @page{size:landscape;margin:8mm}
@@ -211,14 +263,16 @@ footer{text-align:center;color:#7b8b98;font-size:11px;padding:12px}
    <button type="button" class="tab-btn" data-tab="records" onclick="showTab('records')">Monitoring Records</button>
    <button type="button" class="tab-btn" data-tab="counter" onclick="showTab('counter')">Counter Check</button>
    <button type="button" class="tab-btn" data-tab="verify" onclick="showTab('verify')">Verification</button>
+   <button type="button" class="success" onclick="openPDFReportModal()">📄 Official PDF Report</button>
    <button type="button" class="secondary" onclick="exportCSV()">Export CSV</button>
    <button type="button" class="danger" onclick="resetAllRecords()">Reset All Records</button>
  </div>
  <section id="dashboard">
-  <div class="cards">
+  <div class="cards" style="grid-template-columns: repeat(5, 1fr);">
    <div class="metric"><b id="totalCount">0</b><span>Total monitoring entries</span></div>
-   <div class="metric"><b id="compliantCount">0</b><span>Within temperature standard</span></div>
+   <div class="metric"><b id="compliantCount">0</b><span>Within temp standard</span></div>
    <div class="metric"><b id="deviationCount">0</b><span>Temperature deviations</span></div>
+   <div class="metric"><b id="counterCheckMetric">0</b><span>Counter checks logged</span></div>
    <div class="metric"><b id="pendingCount">0</b><span>Awaiting verification</span></div>
   </div>
  </section>
@@ -245,7 +299,13 @@ footer{text-align:center;color:#7b8b98;font-size:11px;padding:12px}
  <section id="records" class="panel hidden">
   <h2>2. Monitoring Records</h2>
   <div id="sheetBlock">
-   <div class="sheetbar"><div class="field"><label for="sheetDate">MONITORING DATE</label><input type="date" id="sheetDate"></div><div class="field"><label for="sheetShift">SHIFT</label><select id="sheetShift"><option value="Day Shift">Day Shift (5:00 AM – 2:00 PM)</option><option value="Mid Shift">Mid Shift (1:00 PM – 10:00 PM)</option><option value="Night Shift">Night Shift (9:00 PM – 6:00 AM)</option></select></div><button class="secondary" onclick="printSheet()">Print Sheet</button><span class="legend"><b></b>Out of temperature standard • Tap a reading to view its details</span></div>
+   <div class="sheetbar">
+     <div class="field"><label for="sheetDate">MONITORING DATE</label><input type="date" id="sheetDate"></div>
+     <div class="field"><label for="sheetShift">SHIFT</label><select id="sheetShift"><option value="Day Shift">Day Shift (5:00 AM – 2:00 PM)</option><option value="Mid Shift">Mid Shift (1:00 PM – 10:00 PM)</option><option value="Night Shift">Night Shift (9:00 PM – 6:00 AM)</option></select></div>
+     <button class="success" onclick="openPDFReportModal()">📄 Official PDF Report</button>
+     <button class="secondary" onclick="printSheet()">Print Sheet</button>
+     <span class="legend"><b></b>Out of temperature standard • Tap a reading to view its details</span>
+   </div>
    <div class="tablewrap"><table id="sheetTable" class="sheet"></table></div>
    <div id="sheetSigs" class="sigrow"></div>
    <div class="signctl">
@@ -326,6 +386,39 @@ footer{text-align:center;color:#7b8b98;font-size:11px;padding:12px}
    <div class="actions"><button class="secondary" id="weekCloseBtn" onclick="closeWeek()">Close</button></div>
   </div>
  </section>
+
+ <!-- Official PDF Report Modal -->
+ <div id="pdfModal" class="modal-overlay hidden">
+  <div class="modal-container">
+   <div class="modal-header noprint">
+    <h2>📄 Official Temperature Monitoring, Counter-Checking &amp; Verification Report</h2>
+    <button type="button" class="close-btn" onclick="closePDFModal()">&times;</button>
+   </div>
+   <div class="modal-controls noprint">
+    <div class="field">
+     <label for="pdfReportDate">MONITORING DATE</label>
+     <input type="date" id="pdfReportDate" onchange="generatePDFReportContent()">
+    </div>
+    <div class="field">
+     <label for="pdfReportShift">SHIFT</label>
+     <select id="pdfReportShift" onchange="generatePDFReportContent()">
+      <option value="Day Shift">Day Shift (5:00 AM – 2:00 PM)</option>
+      <option value="Mid Shift">Mid Shift (1:00 PM – 10:00 PM)</option>
+      <option value="Night Shift">Night Shift (9:00 PM – 6:00 AM)</option>
+     </select>
+    </div>
+    <button type="button" class="success" onclick="triggerPDFPrint()">🖨️ Print / Save as PDF</button>
+    <button type="button" class="secondary" onclick="closePDFModal()">Close</button>
+   </div>
+   <div id="pdfReportContent" class="pdf-report-content">
+    <!-- Live Report Content is injected here -->
+   </div>
+   <div class="modal-footer noprint">
+    <button type="button" class="success" onclick="triggerPDFPrint()">🖨️ Print / Save as PDF</button>
+    <button type="button" class="secondary" onclick="closePDFModal()">Close</button>
+   </div>
+  </div>
+ </div>
  
  <footer>Hourly Room Temperature Monitoring System • May Harvest Corporation • Central Cloud Storage</footer>
 </div>
@@ -483,10 +576,17 @@ function paintRow(i){const s=rl.state[i],row=$("rl"+i),tm=$("rlt"+i),st=$("rls"+
 function refreshLocks(){const now=currentStamp();
  areas.forEach((a,i)=>{const inp=$("tin"+i);if(!inp)return;
   const rec=rl.state[i]?null:data.filter(r=>r.area===a[0]&&r.date===now.date&&String(r.time).slice(0,2)===now.time.slice(0,2)).sort((x,y)=>y.id-x.id)[0];
-  if(rec){rl.locked[i]=true;inp.disabled=true;$("rlb"+i).disabled=true;inp.value=rec.temp.toFixed(1)+"\u00B0C";
-   const tm=$("rlt"+i);tm.querySelector("b").textContent=rec.time;tm.querySelector("small").textContent="Already recorded this hour";tm.classList.add("on");
-   $("rls"+i).innerHTML=badge(rec.assessment);$("rlr"+i).classList.add("hidden");$("rl"+i).className="rl-row locked"}
-  else if(rl.locked[i]){rl.locked[i]=false;inp.disabled=false;$("rlb"+i).disabled=false;inp.value="";paintRow(i)}
+  if(rec){
+    rl.locked[i]=true;inp.disabled=true;$("rlb"+i).disabled=true;
+    inp.value="";
+    inp.placeholder="Saved ("+rec.temp.toFixed(1)+"°C)";
+    const tm=$("rlt"+i);tm.querySelector("b").textContent=rec.time;tm.querySelector("small").textContent="Saved for this hour";tm.classList.add("on");
+    $("rls"+i).innerHTML=badge(rec.assessment);$("rlr"+i).classList.add("hidden");$("rl"+i).className="rl-row locked";
+  }
+  else if(rl.locked[i]){
+    rl.locked[i]=false;inp.disabled=false;$("rlb"+i).disabled=false;
+    inp.value="";inp.placeholder="Enter temp";paintRow(i);
+  }
  });updateSummary()}
 function updateSummary(){const box=$("assessment");let n=0,dev=0,lk=0;
  areas.forEach((a,i)=>{if(rl.locked[i])lk++;const s=rl.state[i];if(s){n++;if(!isCompliant(a[0],s.temp))dev++}});
@@ -494,7 +594,39 @@ function updateSummary(){const box=$("assessment");let n=0,dev=0,lk=0;
  if(!n){box.className="notice";box.textContent="Type a reading beside any room. Its status and time will appear here and in the row."+lockTxt;return}
  box.className="notice "+(dev?"alert":"good");
  box.textContent=`${n} room(s) filled \u2022 ${n-dev} within standard \u2022 ${dev} out of standard. Press Save Monitoring Records to submit.`+(dev?" Document the action taken for out-of-standard readings.":"")+lockTxt}
-function resetAssessment(){areas.forEach((a,i)=>{rl.state[i]=null;rl.locked[i]=false;const inp=$("tin"+i);inp.disabled=false;inp.value="";$("rlb"+i).disabled=false;$("rlri"+i).value="";paintRow(i)});refreshLocks()}
+
+function resetAssessment(){
+  areas.forEach((a,i)=>{
+    rl.state[i]=null;
+    rl.locked[i]=false;
+    const inp=$("tin"+i);
+    if(inp){ inp.disabled=false; inp.value=""; inp.placeholder="Enter temp"; }
+    const b=$("rlb"+i);
+    if(b) b.disabled=false;
+    const r=$("rlri"+i);
+    if(r) r.value="";
+    paintRow(i);
+  });
+  if($("monitor")) $("monitor").value="";
+  if($("shift")) $("shift").value="";
+  if($("thermo")) $("thermo").value="";
+  if($("calibration")) $("calibration").value="";
+  updateSummary();
+  refreshLocks();
+}
+
+function findLinkedCounterCheck(r) {
+  if (!r) return null;
+  // 1. Direct match by linkedId
+  let cc = cdata.find(x => x.linkedId && String(x.linkedId) === String(r.id));
+  if (cc) return cc;
+  // 2. Match by exact Area, Date, and Hour
+  const rHour = String(r.time || '').slice(0, 2);
+  cc = cdata.find(x => x.area === r.area && x.date === r.date && String(x.time || '').slice(0, 2) === rHour);
+  if (cc) return cc;
+  // 3. Fallback: match by Area, Date, and Shift
+  return cdata.find(x => x.area === r.area && x.date === r.date && x.shift === r.shift) || null;
+}
 
 $("entryForm").addEventListener("submit", async e=>{
  e.preventDefault();
@@ -566,10 +698,46 @@ function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&l
 function badge(s){return `<span class="status ${s==="Compliant"||s==="Verified"||s==="Matched"?"ok":s==="Deviation"||s==="Rejected"||s==="Discrepancy"?"bad":"pending"}">${esc(s)}</span>`}
 
 function render(){
- $("totalCount").textContent=data.length;$("compliantCount").textContent=data.filter(r=>r.assessment==="Compliant").length;$("deviationCount").textContent=data.filter(r=>r.assessment==="Deviation").length;$("pendingCount").textContent=data.filter(r=>r.verification==="Pending Verification").length;
+ $("totalCount").textContent=data.length;
+ $("compliantCount").textContent=data.filter(r=>r.assessment==="Compliant").length;
+ $("deviationCount").textContent=data.filter(r=>r.assessment==="Deviation").length;
+ if($("counterCheckMetric")) $("counterCheckMetric").textContent=cdata.length;
+ $("pendingCount").textContent=data.filter(r=>r.verification==="Pending Verification").length;
  let fd=$("filterDate").value,fa=$("filterArea").value,fs=$("filterStatus").value,q=($("searchText").value||"").toLowerCase();
  let rows=data.filter(r=>(!fd||r.date===fd)&&(!fa||r.area===fa)&&(!fs||r.verification===fs||r.assessment===fs)&&(`${r.monitor} ${r.thermo} ${r.area}`.toLowerCase().includes(q)));
- $("recordsBody").innerHTML=rows.map(r=>`<tr><td>${esc(r.date)}<br>${esc(r.time)}</td><td>${esc(r.area)}</td><td><b>${Number(r.temp).toFixed(1)}°C</b></td><td>${esc(r.standard)}</td><td><div class="monitor-counter-wrap"><div class="monitor-info"><b>${esc(r.monitor)}</b><br><small>${esc(r.shift)}</small></div>${(()=>{let cc=cdata.filter(x=>String(x.linkedId)===String(r.id)).sort((a,b)=>b.id-a.id)[0];return cc?`<div class="counter-sign-display"><small>OIC/PLI Counter Checked</small><b>${esc(cc.checker)}</b>${ocSig(cc)?`<img src="${ocSig(cc)}" alt="OIC/PLI counter check signature">`:""}</div>`:`<div class="counter-sign-display"><small>OIC/PLI Counter Check</small><span>Pending</span></div>`})()}</div></td><td>${esc(r.thermo)}<br>${esc(r.calibration)}</td><td>${badge(r.assessment)}</td><td>${badge(r.verification)}${r.verifier?`<br><small>${esc(r.verifier)}</small>`:""}</td><td><button class="secondary" onclick="viewRecord(${r.id},'${esc(r.area)}')">View</button></td></tr>`).join("")||`<tr><td colspan="9">No monitoring records found.</td></tr>`;
+ $("recordsBody").innerHTML=rows.map(r=>{
+   const cc = findLinkedCounterCheck(r);
+   return `<tr>
+     <td>${esc(r.date)}<br>${esc(r.time)}</td>
+     <td>${esc(r.area)}</td>
+     <td><b>${Number(r.temp).toFixed(1)}°C</b></td>
+     <td>${esc(r.standard)}</td>
+     <td>
+       <div class="monitor-counter-wrap">
+         <div class="monitor-info">
+           <b>${esc(r.monitor)}</b><br><small>${esc(r.shift)}</small>
+         </div>
+         ${cc ? `
+           <div class="counter-sign-display">
+             <small style="color:#166534;font-weight:700">OIC/PLI Counter Checked</small>
+             <b>${esc(cc.checker)}</b> (${Number(cc.temp).toFixed(1)}°C)
+             <span class="status ${cc.result==='Discrepancy'?'bad':'ok'}" style="font-size:10px;padding:2px 6px;display:inline-block;margin-top:2px">${esc(cc.result)} (±${cc.diff!==null&&cc.diff!==undefined?Number(cc.diff).toFixed(1):'0.0'}°C)</span>
+             ${ocSig(cc)?`<img src="${ocSig(cc)}" alt="OIC/PLI signature">`:""}
+           </div>
+         ` : `
+           <div class="counter-sign-display">
+             <small>OIC/PLI Counter Check</small>
+             <span style="color:var(--muted);font-size:11px">Pending</span>
+           </div>
+         `}
+       </div>
+     </td>
+     <td>${esc(r.thermo)}<br>${esc(r.calibration)}</td>
+     <td>${badge(r.assessment)}</td>
+     <td>${badge(r.verification)}${r.verifier?`<br><small>${esc(r.verifier)}</small>`:""}</td>
+     <td><button class="secondary" onclick="viewRecord(${r.id},'${esc(r.area)}')">View</button></td>
+   </tr>`;
+ }).join("")||`<tr><td colspan="9">No monitoring records found.</td></tr>`;
  renderWeeks();
  renderCounter();
  renderSheet();
@@ -792,11 +960,16 @@ function resetCounterAssessment(){
   areas.forEach((a, i) => {
     cRl.state[i] = null;
     const inp = $("ctin" + i);
-    if(inp) inp.value = "";
+    if(inp){ inp.value = ""; inp.placeholder = "Enter temp"; }
     if($("crlri" + i)) $("crlri" + i).value = "";
     paintCounterRow(i);
   });
+  if($("cChecker")) $("cChecker").value = "";
+  if($("cShift")) $("cShift").value = "";
+  if($("cThermo")) $("cThermo").value = "";
+  if($("cCalib")) $("cCalib").value = "";
   updateCounterSummary();
+  refreshCounterLatest();
 }
 
 $("counterForm").addEventListener("submit", async e=>{
@@ -924,21 +1097,81 @@ const fmtD=d=>new Date(d+"T00:00:00").toLocaleDateString(undefined,{year:"numeri
 const fmtS=d=>new Date(d+"T00:00:00").toLocaleDateString(undefined,{month:"short",day:"numeric"});
 
 function focusSheet(r){if(!r)return;$("sheetShift").value=r.shift;$("sheetDate").value=sd(r)}
-function renderSheet(){let d=$("sheetDate").value,sh=$("sheetShift").value;if(!d){$("sheetTable").innerHTML="";return}
-let recs=data.filter(r=>r.shift===sh&&sd(r)===d),cols=[...new Set([...shiftSlots(sh,d),...recs.map(r=>r.date+"|"+r.time.slice(0,2))])].sort();
-let head=`<thead><tr><th colspan="${cols.length+2}" class="sheettitle"><div style="position:sticky;left:8px;width:max-content">MONITORING — ${esc(sh.toUpperCase())} (${esc(shiftLabel(sh))}) — ${esc(fmtD(d))}</div></th></tr><tr><th rowspan="2" class="c1">ROOM</th><th rowspan="2" class="c2">STD</th><th colspan="${cols.length}">TIME</th></tr><tr>${cols.map(k=>{if(!k)return"<th>&nbsp;</th>";let[dt,h]=k.split("|");return `<th>${h}:00<br><small>${esc(fmtS(dt))}</small></th>`}).join("")}</tr></thead>`;
-let body=areas.map((a,i)=>{
-  let isRowActive = selectedSheetArea === a[0];
-  return `<tr class="${isRowActive?'active-row':''}" onclick="selectSheetRow('${esc(a[0])}')"><td class="room c1">${i+1}. ${esc(a[0])}</td><td class="c2">${esc(a[3])}</td>${cols.map(k=>{if(!k)return'<td class="cell"></td>';let[dt,h]=k.split("|"),rs=recs.filter(r=>r.area===a[0]&&r.date===dt&&r.time.slice(0,2)===h).sort((x,y)=>x.id-y.id);return `<td class="cell">${rs.map(r=>`<div class="rd${r.assessment==="Deviation"?" dev":""}${activeReadingId===r.id?" active-rd":""}" onclick="event.stopPropagation();viewRecord(${r.id},'${esc(a[0])}')" title="${esc(r.monitor)} • ${esc(r.time)}"><span class="t">${Number(r.temp).toFixed(1)}°C</span><br><span class="tm">${esc(r.time.slice(0,5))}</span></div>`).join("")}</td>`}).join("")}</tr>`;
-}).join("");
-$("sheetTable").innerHTML=head+`<tbody>${body}</tbody>`;
+function renderSheet(){
+  let d=$("sheetDate").value,sh=$("sheetShift").value;
+  if(!d){$("sheetTable").innerHTML="";return}
+  let recs=data.filter(r=>r.shift===sh&&sd(r)===d);
+  let cols=[...new Set([...shiftSlots(sh,d),...recs.map(r=>r.date+"|"+r.time.slice(0,2))])].sort();
+  
+  let head=`<thead><tr><th colspan="${cols.length+2}" class="sheettitle"><div style="position:sticky;left:8px;width:max-content">MONITORING — ${esc(sh.toUpperCase())} (${esc(shiftLabel(sh))}) — ${esc(fmtD(d))}</div></th></tr><tr><th rowspan="2" class="c1">ROOM</th><th rowspan="2" class="c2">STD</th><th colspan="${cols.length}">TIME</th></tr><tr>${cols.map(k=>{if(!k)return"<th>&nbsp;</th>";let[dt,h]=k.split("|");return `<th>${h}:00<br><small>${esc(fmtS(dt))}</small></th>`}).join("")}</tr></thead>`;
+  
+  let body=areas.map((a,i)=>{
+    let isRowActive = selectedSheetArea === a[0];
+    return `<tr class="${isRowActive?'active-row':''}" onclick="selectSheetRow('${esc(a[0])}')">
+      <td class="room c1">${i+1}. ${esc(a[0])}</td>
+      <td class="c2">${esc(a[3])}</td>
+      ${cols.map(k=>{
+        if(!k) return '<td class="cell"></td>';
+        let [dt,h] = k.split("|");
+        let rs = recs.filter(r=>r.area===a[0]&&r.date===dt&&r.time.slice(0,2)===h).sort((x,y)=>x.id-y.id);
+        let crs = cdata.filter(c=>c.area===a[0]&&c.date===dt&&String(c.time||'').slice(0,2)===h).sort((x,y)=>x.id-y.id);
+        
+        let cellHtml = "";
+        if(rs.length > 0){
+          cellHtml = rs.map(r=>{
+            let cc = findLinkedCounterCheck(r);
+            let ccBadge = cc ? `<span class="cc-badge ${cc.result==='Discrepancy'?'bad':'ok'}" title="OIC/PLI CC: ${Number(cc.temp).toFixed(1)}°C (${cc.result}) by ${esc(cc.checker)}">CC: ${Number(cc.temp).toFixed(1)}°C</span>` : '';
+            return `<div class="rd${r.assessment==="Deviation"?" dev":""}${activeReadingId===r.id?" active-rd":""}" onclick="event.stopPropagation();viewRecord(${r.id},'${esc(a[0])}')" title="${esc(r.monitor)} • ${esc(r.time)}${cc ? ' | CC by ' + esc(cc.checker) : ''}">
+              <span class="t">${Number(r.temp).toFixed(1)}°C</span>
+              <br><span class="tm">${esc(r.time.slice(0,5))}</span>
+              ${ccBadge}
+            </div>`;
+          }).join("");
+        } else if(crs.length > 0){
+          cellHtml = crs.map(c=>`
+            <div class="rd cc-only${c.result==="Discrepancy"||c.assessment==="Deviation"?" dev":""}${activeReadingId===c.id?" active-rd":""}" onclick="event.stopPropagation();viewCounter(${c.id},'${esc(a[0])}')" title="OIC/PLI Counter-Check: ${Number(c.temp).toFixed(1)}°C by ${esc(c.checker)} at ${esc(c.time)}">
+              <span class="t">${Number(c.temp).toFixed(1)}°C</span>
+              <br><span class="tm">${esc(c.time.slice(0,5))}</span>
+              <span class="cc-badge ${c.result==='Discrepancy'?'bad':'ok'}">CC Only</span>
+            </div>
+          `).join("");
+        }
+        return `<td class="cell">${cellHtml}</td>`;
+      }).join("")}
+    </tr>`;
+  }).join("");
+  $("sheetTable").innerHTML=head+`<tbody>${body}</tbody>`;
 
-let key=d+"|"+sh,sigs=sheetSigs[key]||[];
-$("sheetSigs").innerHTML=sigs.map((g,i)=>`<div>${g.sig?`<img src="${g.sig}" alt="signature">`:'<div class="blank"></div>'}<p><b>Monitored By:</b> ${esc(g.name)}</p><button class="secondary rm noprint" onclick="removeSheetSig('${key}','${esc(g.name)}')">Remove</button></div>`).join("")+(()=>{let ids=new Set(recs.map(r=>String(r.id))),seen={},out=[];cdata.slice().sort((a,b)=>b.id-a.id).forEach(c=>{if(!ocSig(c))return;if(!((c.shift===sh&&sd(c)===d)||ids.has(String(c.linkedId))))return;let k=String(c.checker).trim().toLowerCase();if(seen[k])return;seen[k]=1;out.push(c)});return out.map(c=>`<div class="ocsig"><img src="${ocSig(c)}" alt="OIC/PLI signature"><p><b>OIC/PLI:</b> ${esc(c.checker)}</p></div>`).join("")})();
+  // Monitored Signatures
+  let key=d+"|"+sh,sigs=sheetSigs[key]||[];
+  let monSigsHtml = sigs.map((g,i)=>`<div>${g.sig?`<img src="${g.sig}" alt="signature">`:'<div class="blank"></div>'}<p><b>Monitored By:</b> ${esc(g.name)}</p><button class="secondary rm noprint" onclick="removeSheetSig('${key}','${esc(g.name)}')">Remove</button></div>`).join("");
 
-let mons=[...new Set(recs.map(r=>r.monitor))].sort(),cur=$("sigName").value;
-$("sigName").innerHTML=mons.length?mons.map(n=>`<option>${esc(n)}</option>`).join(""):'<option value="">No monitoring records on this shift / date</option>';if(mons.includes(cur))$("sigName").value=cur;
-$("sigTitle").textContent="Sign Monitoring Sheet — "+sh+" • "+fmtD(d);initSheetPad()}
+  // Counter Checked Signatures
+  let cSigsHtml = (()=>{
+    let ids = new Set(recs.map(r=>String(r.id))), seen={}, out=[];
+    (counterSigs[d] || []).forEach(cs => {
+      let k = String(cs.name).trim().toLowerCase();
+      if(!seen[k]){ seen[k]=1; out.push({ name: cs.name, sig: cs.sig }); }
+    });
+    cdata.slice().sort((a,b)=>b.id-a.id).forEach(c=>{
+      if(!ocSig(c)) return;
+      if(!((c.shift===sh&&sd(c)===d)||ids.has(String(c.linkedId)))) return;
+      let k=String(c.checker).trim().toLowerCase();
+      if(seen[k]) return;
+      seen[k]=1;
+      out.push({ name: c.checker, sig: ocSig(c) });
+    });
+    return out.map(c=>`<div class="ocsig"><img src="${c.sig}" alt="OIC/PLI signature"><p><b>OIC/PLI Counter Checked:</b> ${esc(c.name)}</p></div>`).join("");
+  })();
+
+  $("sheetSigs").innerHTML = (monSigsHtml || '<p style="color:var(--muted);font-size:12px;margin:8px 0">No PLI Monitor signature yet for this shift.</p>') + cSigsHtml;
+
+  let mons=[...new Set(recs.map(r=>r.monitor))].sort(),cur=$("sigName").value;
+  $("sigName").innerHTML=mons.length?mons.map(n=>`<option>${esc(n)}</option>`).join(""):'<option value="">No monitoring records on this shift / date</option>';
+  if(mons.includes(cur))$("sigName").value=cur;
+  $("sigTitle").textContent="Sign Monitoring Sheet — "+sh+" • "+fmtD(d);
+  initSheetPad();
+}
 
 function initSheetPad(){let c=$("sigPad");if(c.dataset.init||!c.clientWidth)return;c.dataset.init="1";let dp=window.devicePixelRatio||1;c.width=c.clientWidth*dp;c.height=c.clientHeight*dp;let x=c.getContext("2d");x.setTransform(dp,0,0,dp,0,0);x.lineWidth=2;x.lineCap="round";x.lineJoin="round";x.strokeStyle="#12324a";let dr=false;const pt=e=>{let r=c.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}};
 c.addEventListener("pointerdown",e=>{dr=true;c.setPointerCapture(e.pointerId);let q=pt(e);x.beginPath();x.moveTo(q.x,q.y);x.lineTo(q.x+.1,q.y);x.stroke();c.dataset.has="1"});
@@ -992,6 +1225,196 @@ async function removeSheetSig(key, name){
 })();
 $("sheetDate").addEventListener("input",renderSheet);
 $("sheetShift").addEventListener("input",renderSheet);
+
+/* ===== Official PDF Report Generator ===== */
+function openPDFReportModal(defaultDate, defaultShift){
+  const d = defaultDate || $("sheetDate").value || currentStamp().date;
+  const sh = defaultShift || $("sheetShift").value || "Day Shift";
+  if($("pdfReportDate")) $("pdfReportDate").value = d;
+  if($("pdfReportShift")) $("pdfReportShift").value = sh;
+  $("pdfModal").classList.remove("hidden");
+  generatePDFReportContent();
+}
+
+function closePDFModal(){
+  $("pdfModal").classList.add("hidden");
+}
+
+function triggerPDFPrint(){
+  document.body.classList.add("pdf-printing");
+  window.print();
+  setTimeout(()=>{
+    document.body.classList.remove("pdf-printing");
+  }, 1000);
+}
+
+function generatePDFReportContent(){
+  const d = $("pdfReportDate").value || currentStamp().date;
+  const sh = $("pdfReportShift").value || "Day Shift";
+  const container = $("pdfReportContent");
+  if(!container) return;
+
+  const recs = data.filter(r => r.shift === sh && sd(r) === d);
+  const slots = shiftSlots(sh, d);
+  const cols = [...new Set([...slots, ...recs.map(r => r.date + "|" + r.time.slice(0, 2))])].sort();
+
+  const totalMonitored = recs.length;
+  const deviations = recs.filter(r => r.assessment === "Deviation").length;
+  const shiftCdata = cdata.filter(c => (c.shift === sh && sd(c) === d) || recs.some(r => String(c.linkedId) === String(r.id)));
+  const discrepancies = shiftCdata.filter(c => c.result === "Discrepancy").length;
+
+  // Signatures
+  const key = d + "|" + sh;
+  const sSigs = sheetSigs[key] || [];
+  const monitorNames = [...new Set(recs.map(r => r.monitor))];
+  const monitorSigImg = sSigs.length && sSigs[0].sig ? sSigs[0].sig : null;
+  const monitorDisplayName = sSigs.length ? sSigs.map(s => s.name).join(", ") : (monitorNames.join(", ") || "No Monitor Assigned");
+
+  const checkerNames = [...new Set(shiftCdata.map(c => c.checker))];
+  const cSigObj = (counterSigs[d] || []).find(cs => checkerNames.includes(cs.name)) || null;
+  const checkerSigImg = cSigObj ? cSigObj.sig : (shiftCdata.find(c => ocSig(c)) ? ocSig(shiftCdata.find(c => ocSig(c))) : null);
+  const checkerDisplayName = checkerNames.length ? checkerNames.join(", ") : "Pending Counter Check";
+
+  const wkKey = wkStart(d);
+  const wVerList = weeklyVer[wkKey] || [];
+  const lastVer = wVerList.length ? wVerList[wVerList.length - 1] : null;
+  const verifierName = lastVer ? lastVer.verifier : "Quality Assurance Supervisor";
+  const verifierSigImg = lastVer ? lastVer.sig : null;
+  const verifierDecision = lastVer ? lastVer.decision : "Pending QA Audit";
+  const verifierDate = lastVer ? lastVer.date.replace("T", " ") : "";
+
+  const tableRows = areas.map((a, i) => {
+    const slotTds = cols.map(k => {
+      if(!k) return '<td class="center" style="color:#94a3b8;font-size:10px">—</td>';
+      const [dt, h] = k.split("|");
+      const rs = recs.filter(r => r.area === a[0] && r.date === dt && r.time.slice(0, 2) === h);
+      if(rs.length > 0){
+        const r = rs[0];
+        const isDev = r.assessment === "Deviation";
+        return `<td class="center ${isDev ? 'bad' : ''}" style="${isDev ? 'background:#fee2e2;color:#991b1b;font-weight:700' : ''}">
+          ${Number(r.temp).toFixed(1)}°C
+        </td>`;
+      }
+      return '<td class="center" style="color:#cbd5e1;font-size:10px">—</td>';
+    }).join("");
+
+    const cc = shiftCdata.find(c => c.area === a[0]);
+    let ccCell = '<td class="center" style="color:#94a3b8;font-size:10px">Pending</td>';
+    if(cc){
+      const isDisc = cc.result === "Discrepancy" || cc.assessment === "Deviation";
+      ccCell = `<td class="center" style="${isDisc ? 'background:#fef2f2;color:#b91c1c;font-weight:700' : 'color:#15803d;font-weight:600'}">
+        ${Number(cc.temp).toFixed(1)}°C<br><small style="font-size:9px">(${cc.result || 'OK'})</small>
+      </td>`;
+    }
+
+    const roomRec = recs.find(r => r.area === a[0] && r.remarks);
+    const roomRem = (roomRec ? roomRec.remarks : "") || (cc && cc.remarks ? cc.remarks : "—");
+
+    return `<tr>
+      <td class="center" style="width:28px">${i + 1}</td>
+      <td class="room" style="white-space:nowrap;font-weight:700">${esc(a[0])}</td>
+      <td class="center" style="white-space:nowrap;font-size:10.5px">${esc(a[3])}</td>
+      ${slotTds}
+      ${ccCell}
+      <td style="font-size:10px;max-width:180px">${esc(roomRem)}</td>
+    </tr>`;
+  }).join("");
+
+  container.innerHTML = `
+    <div class="pdf-doc-header">
+      <div class="pdf-brand">
+        <img src="images/mhc-logo.png" alt="MHC Logo" class="pdf-logo">
+        <div class="pdf-title-block">
+          <h1>MAY HARVEST CORPORATION</h1>
+          <h2>COLD STORAGE &amp; CLEAN ROOM TEMPERATURE MONITORING, COUNTER-CHECKING &amp; QA AUDIT REPORT</h2>
+        </div>
+      </div>
+      <div style="text-align:right;font-size:10.5px;color:#475569">
+        <div><b>Doc Ref:</b> MHC-QA-TEMPREP-01</div>
+        <div><b>Revision:</b> Rev. 02 (Cloud Live)</div>
+        <div><b>Generated:</b> ${new Date().toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'})} ${new Date().toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit'})}</div>
+      </div>
+    </div>
+
+    <div class="pdf-meta-box">
+      <div class="pdf-meta-item">
+        <small>Monitoring Date</small>
+        <b>${esc(fmtD(d))}</b>
+      </div>
+      <div class="pdf-meta-item">
+        <small>Shift Schedule</small>
+        <b>${esc(sh)} (${esc(shiftLabel(sh))})</b>
+      </div>
+      <div class="pdf-meta-item">
+        <small>Monitored Units</small>
+        <b>${totalMonitored} Logged / ${deviations} Deviation(s)</b>
+      </div>
+      <div class="pdf-meta-item">
+        <small>Counter-Checks &amp; Verification</small>
+        <b>${shiftCdata.length} CC Checked / ${discrepancies} Discrepancy</b>
+      </div>
+    </div>
+
+    <table class="pdf-table">
+      <thead>
+        <tr>
+          <th rowspan="2" style="width:24px">#</th>
+          <th rowspan="2">ROOM / FACILITY</th>
+          <th rowspan="2">STD SPEC</th>
+          <th colspan="${cols.length}">MONITORING TIME (HOURLY IN °C)</th>
+          <th rowspan="2" style="width:90px">OIC/PLI CC</th>
+          <th rowspan="2">REMARKS / ACTIONS</th>
+        </tr>
+        <tr>
+          ${cols.map(k => {
+            if(!k) return '<th>—</th>';
+            const [dt, h] = k.split("|");
+            return `<th style="font-size:9.5px;padding:3px 4px">${h}:00</th>`;
+          }).join("")}
+        </tr>
+      </thead>
+      <tbody>
+        ${tableRows}
+      </tbody>
+    </table>
+
+    <div class="pdf-tri-sigs">
+      <!-- 1. Monitored By -->
+      <div class="pdf-sig-box">
+        <h4>1. Monitored By (PLI Monitor)</h4>
+        ${monitorSigImg ? `<img src="${monitorSigImg}" class="pdf-sig-img" alt="PLI Monitor Signature">` : `<div class="pdf-sig-blank">Digital Signature Pending</div>`}
+        <div class="pdf-sig-info">
+          <p>Name: <b>${esc(monitorDisplayName)}</b></p>
+          <p>Designation: <b>Cold Storage PLI Monitor</b></p>
+          <p>Date &amp; Shift: <b>${esc(d)} • ${esc(sh)}</b></p>
+        </div>
+      </div>
+
+      <!-- 2. Counter Checked By -->
+      <div class="pdf-sig-box">
+        <h4>2. Counter-Checked By (OIC / PLI)</h4>
+        ${checkerSigImg ? `<img src="${checkerSigImg}" class="pdf-sig-img" alt="OIC / PLI Signature">` : `<div class="pdf-sig-blank">Digital Signature Pending</div>`}
+        <div class="pdf-sig-info">
+          <p>Name: <b>${esc(checkerDisplayName)}</b></p>
+          <p>Designation: <b>Cold Storage OIC / Counter-Checker</b></p>
+          <p>Status: <b>${shiftCdata.length ? shiftCdata.length + ' Room(s) Counter-Checked' : 'Pending Counter Check'}</b></p>
+        </div>
+      </div>
+
+      <!-- 3. Verified By (QA) -->
+      <div class="pdf-sig-box">
+        <h4>3. Verified &amp; Approved By (QA)</h4>
+        ${verifierSigImg ? `<img src="${verifierSigImg}" class="pdf-sig-img" alt="Quality Assurance Signature">` : `<div class="pdf-sig-blank">QA Digital Signature Pending</div>`}
+        <div class="pdf-sig-info">
+          <p>Name: <b>${esc(verifierName)}</b></p>
+          <p>Designation: <b>Plant Quality Assurance / Supervisor</b></p>
+          <p>Audit Status: <b>${esc(verifierDecision)}</b> ${verifierDate ? '(' + esc(verifierDate) + ')' : ''}</p>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 function printSheet(c){c=c||"ps";document.body.classList.add(c);window.print();document.body.classList.remove(c)}
 
 function renderCounterSheet(){let d=$("cSheetDate").value;if(!d){$("counterSheet").innerHTML="";return}
