@@ -375,7 +375,15 @@ footer{text-align:center;color:#7b8b98;font-size:11px;padding:12px}
     <div class="grid">
      <div class="field"><label for="verifier">VERIFIED BY (QUALITY PERSONNEL) *</label><input id="verifier" placeholder="Enter verifier's complete name"></div>
      <div class="field"><label for="verifyDate">DATE / TIME VERIFIED *</label><input id="verifyDate" type="datetime-local"></div>
-     <div class="field"><label for="decision">VERIFICATION DECISION *</label><select id="decision"><option value="Verified">Verified – Acceptable</option><option value="Rejected">Rejected – For correction / review</option></select></div>
+     <div class="field wide" style="grid-column:1/-1">
+       <label style="font-size:12px;font-weight:700;color:#0d4a2b;margin-bottom:6px;display:block">PRE-VERIFICATION CHECKLIST *</label>
+       <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px 16px;display:flex;flex-direction:column;gap:8px">
+        <label style="font-size:13px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="vCheck1" style="width:18px;height:18px;min-height:18px;accent-color:#15803d"> 1. Perform ice point verification</label>
+        <label style="font-size:13px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="vCheck2" style="width:18px;height:18px;min-height:18px;accent-color:#15803d"> 2. Calibrated Thermometer</label>
+        <label style="font-size:13px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="vCheck3" style="width:18px;height:18px;min-height:18px;accent-color:#15803d"> 3. Clean and sanitized thermometer</label>
+       </div>
+      </div>
+      <div class="field"><label for="decision">VERIFICATION DECISION *</label><select id="decision"><option value="Verified">Verified – Acceptable</option><option value="Rejected">Rejected – For correction / review</option></select></div>
      <div class="field wide"><label for="verifyRemarks">VERIFICATION REMARKS *</label><textarea id="verifyRemarks" rows="2" placeholder="Record review findings, required follow-up, or reason for rejection"></textarea></div>
     </div>
     <label style="font-size:12px;font-weight:700;color:var(--muted)">VERIFIER SIGNATURE *</label>
@@ -1283,6 +1291,12 @@ function generatePDFReportContent(){
   const verifierDecision = lastVer ? lastVer.decision : "Pending QA Audit";
   const verifierDate = lastVer ? lastVer.date.replace("T", " ") : "";
 
+  // Thermometer and calibration info from records
+  const monThermo = recs.length ? (recs.find(r => r.thermo) || {}).thermo || '—' : '—';
+  const monCalibration = recs.length ? (recs.find(r => r.calibration) || {}).calibration || '—' : '—';
+  const ccThermo = shiftCdata.length ? (shiftCdata.find(c => c.thermo) || {}).thermo || '—' : '—';
+  const ccCalibration = shiftCdata.length ? (shiftCdata.find(c => c.calibration) || {}).calibration || '—' : '—';
+
   const tableRows = areas.map((a, i) => {
     const slotTds = cols.map(k => {
       if(!k) return '<td class="center" style="color:#94a3b8;font-size:10px">—</td>';
@@ -1330,7 +1344,7 @@ function generatePDFReportContent(){
         </div>
       </div>
       <div style="text-align:right;font-size:10.5px;color:#475569">
-        <div><b>Doc Ref:</b> MHC-QA-TEMPREP-01</div>
+        <div><b>Doc Ref:</b> QAC075</div>
         <div><b>Revision:</b> Rev. 02 (Cloud Live)</div>
         <div><b>Generated:</b> ${new Date().toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'})} ${new Date().toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit'})}</div>
       </div>
@@ -1352,6 +1366,27 @@ function generatePDFReportContent(){
       <div class="pdf-meta-item">
         <small>Counter-Checks &amp; Verification</small>
         <b>${shiftCdata.length} CC Checked / ${discrepancies} Discrepancy</b>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px">
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 14px">
+        <div style="font-size:10px;font-weight:700;color:#0d4a2b;text-transform:uppercase;margin-bottom:6px;border-bottom:1px solid #e2e8f0;padding-bottom:4px">Thermometer / ITME Information (Monitoring)</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:11px">
+          <div><small style="color:#64748b;font-size:9.5px">Thermometer Used</small><br><b>${esc(monThermo)}</b></div>
+          <div><small style="color:#64748b;font-size:9.5px">ITME / Serial No.</small><br><b>${esc(monThermo || '—')}</b></div>
+          <div><small style="color:#64748b;font-size:9.5px">Calibration Date</small><br><b>${esc(monCalibration)}</b></div>
+          <div><small style="color:#64748b;font-size:9.5px">Status</small><br><b style="color:#15803d">${monCalibration ? 'Calibrated' : 'Not Specified'}</b></div>
+        </div>
+      </div>
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 14px">
+        <div style="font-size:10px;font-weight:700;color:#0d4a2b;text-transform:uppercase;margin-bottom:6px;border-bottom:1px solid #e2e8f0;padding-bottom:4px">Thermometer / ITME Information (Counter-Check)</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:11px">
+          <div><small style="color:#64748b;font-size:9.5px">Thermometer Used</small><br><b>${esc(ccThermo)}</b></div>
+          <div><small style="color:#64748b;font-size:9.5px">ITME / Serial No.</small><br><b>${esc(ccThermo || '—')}</b></div>
+          <div><small style="color:#64748b;font-size:9.5px">Calibration Date</small><br><b>${esc(ccCalibration)}</b></div>
+          <div><small style="color:#64748b;font-size:9.5px">Status</small><br><b style="color:#15803d">${ccCalibration ? 'Calibrated' : 'Not Specified'}</b></div>
+        </div>
       </div>
     </div>
 
@@ -1377,6 +1412,24 @@ function generatePDFReportContent(){
         ${tableRows}
       </tbody>
     </table>
+
+    <div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:8px;padding:12px 16px;margin-bottom:16px;page-break-inside:avoid">
+      <div style="font-size:11px;font-weight:750;color:#0d4a2b;text-transform:uppercase;margin-bottom:8px;border-bottom:1px solid #bbf7d0;padding-bottom:4px">QA Pre-Verification Checklist (QAC075)</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;font-size:11.5px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="display:inline-block;width:16px;height:16px;border:2px solid #15803d;border-radius:3px;text-align:center;line-height:14px;font-size:11px;font-weight:800;color:#15803d">${lastVer ? '✓' : ''}</span>
+          <span style="font-weight:600">1. Perform ice point verification</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="display:inline-block;width:16px;height:16px;border:2px solid #15803d;border-radius:3px;text-align:center;line-height:14px;font-size:11px;font-weight:800;color:#15803d">${lastVer ? '✓' : ''}</span>
+          <span style="font-weight:600">2. Calibrated Thermometer</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="display:inline-block;width:16px;height:16px;border:2px solid #15803d;border-radius:3px;text-align:center;line-height:14px;font-size:11px;font-weight:800;color:#15803d">${lastVer ? '✓' : ''}</span>
+          <span style="font-weight:600">3. Clean and sanitized thermometer</span>
+        </div>
+      </div>
+    </div>
 
     <div class="pdf-tri-sigs">
       <!-- 1. Monitored By -->
@@ -1469,7 +1522,7 @@ $("weekFlags").innerHTML=fl.map(r=>`<tr><td>${esc(r.date)}<br>${esc(r.time)}</td
 let done=(weeklyVer[k]||[]);$("weekDone").innerHTML=done.map(v=>`<div class="notice ${v.decision==="Verified"?"good":"alert"}" style="margin-top:12px"><b>${esc(v.decision)}</b> by <b>${esc(v.verifier)}</b> • ${esc(v.date.replace("T"," "))} • ${v.count} record(s)<br>${esc(v.remarks)}${v.sig?`<img src="${v.sig}" alt="signature" style="display:block;width:220px;height:80px;object-fit:contain;border-bottom:1px solid #333;margin-top:8px">`:""}</div>`).join("");
 $("weekDone").classList.toggle("hidden",!done.length);
 $("weekForm").classList.toggle("hidden",!w.pend);$("weekCloseBtn").classList.toggle("hidden",!!w.pend);
-if(w.pend){$("verifier").value="";let n=new Date();n.setMinutes(n.getMinutes()-n.getTimezoneOffset());$("verifyDate").value=n.toISOString().slice(0,16);$("decision").value="Verified";$("verifyRemarks").value="";}
+if(w.pend){$("verifier").value="";let n=new Date();n.setMinutes(n.getMinutes()-n.getTimezoneOffset());$("verifyDate").value=n.toISOString().slice(0,16);$("decision").value="Verified";$("verifyRemarks").value="";if($("vCheck1"))$("vCheck1").checked=false;if($("vCheck2"))$("vCheck2").checked=false;if($("vCheck3"))$("vCheck3").checked=false;}
 $("weekEditor").classList.remove("hidden");if(w.pend){initPad($("vPad"));clearPad($("vPad"))}
 $("weekEditor").scrollIntoView({behavior:"smooth",block:"start"})}
 function closeWeek(){$("weekEditor").classList.add("hidden");selectedWeek=null}
@@ -1477,6 +1530,8 @@ function closeWeek(){$("weekEditor").classList.add("hidden");selectedWeek=null}
 async function submitWeek(){
   if(!selectedWeek) return;
   let k=selectedWeek,w=weekStatus(k);
+  const c1=$("vCheck1"),c2=$("vCheck2"),c3=$("vCheck3");
+  if(c1&&c2&&c3&&(!c1.checked||!c2.checked||!c3.checked)){alert("Please complete the Pre-Verification Checklist. All three items must be checked:\n\n1. Perform ice point verification\n2. Calibrated Thermometer\n3. Clean and sanitized thermometer");return}
   if(!$("verifier").value.trim()||!$("verifyDate").value||!$("verifyRemarks").value.trim()){alert("Please complete the verifier name, verification date/time, and verification remarks.");return}
   if($("vPad").dataset.has!=="1"){alert("Please sign in the signature box.");return}
   
